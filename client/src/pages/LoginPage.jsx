@@ -26,7 +26,13 @@ export const LoginPage = () => {
                 });
             },
             onError: (error) => {
-                console.log("Error: " + error);
+                console.log(error.response.data.message);
+
+                toaster.danger(error.response.data.message, {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: "login-failed",
+                });
             },
         }
     );
@@ -40,6 +46,14 @@ export const LoginPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        if (text.username === "" || text.password === "") {
+            return toaster.danger("Enter all the fields!", {
+                hasCloseButton: true,
+                duration: 3,
+                id: "login-failed",
+            });
+        }
 
         mutation.mutate(text);
     };
