@@ -28,16 +28,15 @@ class AuthController extends Controller
     {
        Auth::logout();
 
-        return $request->session()->all();
+        return response(["message"=> 'logged out successfully']);
     }
 
-    public function register(Request $request) {
-
+    public function register(Request $request)
+    {
         $request->validate([
             'username' => ['required'],
             'password' => ['required'],
-            'firstname'=> ['required'],
-            'lastname' => ['required'],
+            'email' => ['request', 'email']
         ]);
 
         $user = User::create($request->all());
