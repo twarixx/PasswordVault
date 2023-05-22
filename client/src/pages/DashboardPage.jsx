@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toaster } from "evergreen-ui";
 
 export const DashboardPage = () => {
-    const { logout } = useContext(AuthContext);
+    const { logout, currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = (event) => {
@@ -21,7 +21,7 @@ export const DashboardPage = () => {
 
     return (
         <div>
-            <p>Dashboard</p>
+            <p>Hey, {currentUser.email}</p>
             <button
                 className="bg-sky-500 px-4 py-2 rounded text-white"
                 onClick={handleLogout}
