@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('zipcode');
-            $table->string('city');
+            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
             $table->string('username');
             $table->string('type');
             $table->string('email')->unique();
