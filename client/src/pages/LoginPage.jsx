@@ -1,5 +1,3 @@
 export const LoginPage = () => {
-    return (
-        
-    )
-}
+    return <p>Login Page</p>;
+};
