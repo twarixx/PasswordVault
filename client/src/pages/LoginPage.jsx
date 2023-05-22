@@ -4,11 +4,13 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../context/AuthContext";
 import { toaster } from "evergreen-ui";
 import { Link, useNavigate } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
 
 export const LoginPage = () => {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [loggingIn, setLoggingIn] = useState(false);
     const [text, setText] = useState({
         username: "",
         password: "",
@@ -20,6 +22,7 @@ export const LoginPage = () => {
         },
         {
             onSuccess: (data) => {
+                setLoggingIn(false);
                 login(data.data);
 
                 navigate("/");
@@ -31,6 +34,7 @@ export const LoginPage = () => {
                 });
             },
             onError: (error) => {
+                setLoggingIn(false);
                 toaster.danger(error.response.data.message, {
                     hasCloseButton: true,
                     duration: 3,
@@ -57,6 +61,8 @@ export const LoginPage = () => {
                 id: "login-failed",
             });
         }
+
+        setLoggingIn(true);
 
         mutation.mutate(text);
     };
@@ -106,8 +112,12 @@ export const LoginPage = () => {
                                     name="password"
                                 />
                             </div>
-                            <button className="bg-sky-500 hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 mt-2 py-2 mb-4">
-                                Sign in
+                            <button className="bg-sky-500 h-12 flex justify-center items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 mt-2 py-2 mb-4">
+                                {loggingIn ? (
+                                    <PulseLoader color="white" />
+                                ) : (
+                                    "Sign in!"
+                                )}
                             </button>
                         </form>
 
