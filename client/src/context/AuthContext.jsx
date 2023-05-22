@@ -14,8 +14,6 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     const logout = () => {
-        console.log("logging out...");
-
         setCurrentUser("");
         localStorage.removeItem("current_user");
         makeRequest.post("/logout");

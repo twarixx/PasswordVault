@@ -3,10 +3,12 @@ import { makeRequest } from "../axios";
 import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../context/AuthContext";
 import { toaster } from "evergreen-ui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
     const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     const [text, setText] = useState({
         username: "",
         password: "",
@@ -20,6 +22,8 @@ export const LoginPage = () => {
             onSuccess: (data) => {
                 login(data.data);
 
+                navigate("/");
+
                 toaster.success("Successfully signed in!", {
                     hasCloseButton: true,
                     duration: 3,
@@ -27,8 +31,6 @@ export const LoginPage = () => {
                 });
             },
             onError: (error) => {
-                console.log(error.response.data.message);
-
                 toaster.danger(error.response.data.message, {
                     hasCloseButton: true,
                     duration: 3,
