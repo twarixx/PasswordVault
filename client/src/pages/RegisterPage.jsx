@@ -73,6 +73,8 @@ export const RegisterPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        mutation.mutate(text);
+
         console.log(text);
     };
 
@@ -152,7 +154,7 @@ export const RegisterPage = () => {
                                     className="outline outline-stone-600 hover:outline-sky-500 focus:outline-sky-500 transition ring-0 px-4 py-2 bg-stone-600 rounded"
                                     type="password"
                                     id="confirm-password"
-                                    name="confirm-password"
+                                    name="confirmpassword"
                                 />
                             </div>
                             <button className="bg-sky-500 h-12 flex justify-center items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 mt-2 py-2 mb-4">
