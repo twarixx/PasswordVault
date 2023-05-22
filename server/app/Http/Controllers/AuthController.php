@@ -24,7 +24,7 @@ class AuthController extends Controller
         return response(["message"=> "Wrong username or password"], 401);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
        Auth::logout();
 
@@ -35,8 +35,8 @@ class AuthController extends Controller
     {
         $request->validate([
             'username' => ['required'],
-            'password' => ['required'],
-            'email' => ['request', 'email']
+            'password' => ['required', 'size:12', "regex:/^([^\"!'\*\\]*)$/"],
+            'email' => ['request', 'email', 'unique']
         ]);
 
         $user = User::create($request->all());
