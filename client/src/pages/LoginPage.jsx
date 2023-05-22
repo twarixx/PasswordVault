@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { makeRequest } from "../axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { AuthContext } from "../context/AuthContext";
+import { toaster } from "evergreen-ui";
 
 export const LoginPage = () => {
-    const queryClient = useQueryClient();
+    const { login } = useContext(AuthContext);
     const [text, setText] = useState({
         username: "",
         password: "",
@@ -15,7 +17,13 @@ export const LoginPage = () => {
         },
         {
             onSuccess: (data) => {
-                console.log(data);
+                login(data.data);
+
+                toaster.success("Successfully signed in!", {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: "login-successful",
+                });
             },
             onError: (error) => {
                 console.log("Error: " + error);

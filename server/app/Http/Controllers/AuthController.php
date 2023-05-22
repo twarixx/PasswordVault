@@ -20,6 +20,6 @@ class AuthController extends Controller
             return Auth::user();
         }
 
-        return response("error");
+        return response("error", 401);
     }
 }
