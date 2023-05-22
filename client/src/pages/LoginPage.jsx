@@ -3,6 +3,7 @@ import { makeRequest } from "../axios";
 import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../context/AuthContext";
 import { toaster } from "evergreen-ui";
+import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
     const { login } = useContext(AuthContext);
@@ -108,7 +109,7 @@ export const LoginPage = () => {
                             </button>
                         </form>
 
-                        <Link to="/register">
+                        <Link className="w-full" to="/register">
                             <div className="flex justify-between w-full px-2 mt-4 mb-2 text-stone-300">
                                 <p>Don't have an account?</p>
                                 <p>Sign up!</p>
