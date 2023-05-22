@@ -34,4 +34,4 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: server/database/database.sqlite
-      run: vendor/bin/phpunit --working-dir=server
+      run: server/vendor/bin/phpunit
