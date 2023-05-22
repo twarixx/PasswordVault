@@ -108,10 +108,12 @@ export const LoginPage = () => {
                             </button>
                         </form>
 
-                        <div className="flex justify-between w-full px-2 mb-2 text-stone-300">
-                            <p>Don't have an account?</p>
-                            <p>Sign up!</p>
-                        </div>
+                        <Link to="/register">
+                            <div className="flex justify-between w-full px-2 mt-4 mb-2 text-stone-300">
+                                <p>Don't have an account?</p>
+                                <p>Sign up!</p>
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
