@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { makeRequest } from "../axios";
 
 export const AuthContext = createContext(
     JSON.parse(localStorage.getItem("current_user")) || ""
@@ -14,8 +15,8 @@ export const AuthContextProvider = ({ children }) => {
 
     const logout = () => {
         setCurrentUser("");
-
         localStorage.removeItem("current_user");
+        makeRequest.post("/logout");
     };
 
     useEffect(() => {

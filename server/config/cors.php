@@ -19,6 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
+    'Access-Control-Allow-Origin' => ['localhost:5173'],
+
     'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
@@ -27,8 +29,10 @@ return [
 
     'exposed_headers' => [],
 
+    'Access-Control-Allow-Origin' => ['localhost:5173'],
+
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
