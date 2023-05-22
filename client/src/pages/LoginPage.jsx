@@ -1,10 +1,28 @@
+import axios from "axios";
 import { useState } from "react";
+import { makeRequest } from "../axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const LoginPage = () => {
+    const queryClient = useQueryClient();
     const [text, setText] = useState({
         username: "",
         password: "",
     });
+
+    const mutation = useMutation(
+        (data) => {
+            return makeRequest.post("/login", data);
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data);
+            },
+            onError: (error) => {
+                console.log("Error: " + error);
+            },
+        }
+    );
 
     const handleChange = (event) => {
         setText((prev) => ({
@@ -16,7 +34,7 @@ export const LoginPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(text);
+        mutation.mutate(text);
     };
 
     return (
