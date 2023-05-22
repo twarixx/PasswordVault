@@ -22,6 +22,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 
-Route::middleware('auth')->get('/authtest', function() {
-    return response("Ok");
-});
+Route::middleware('auth')->post('/logout', [AuthController::class, 'logout']);
