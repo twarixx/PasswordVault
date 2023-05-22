@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function authenticate(Request $request): \Illuminate\Contracts\Foundation\Application|ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Respons
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'username' => ['required'],
