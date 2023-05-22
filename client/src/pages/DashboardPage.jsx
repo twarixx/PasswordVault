@@ -9,7 +9,7 @@ export const DashboardPage = () => {
             <p>Dashboard</p>
             <button
                 className="bg-sky-500 px-4 py-2 rounded text-white"
-                onClick={(e) => logout}
+                onClick={(e) => logout()}
             >
                 Logout
             </button>
