@@ -1,10 +1,41 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { makeRequest } from "../axios";
+import { useMutation } from "@tanstack/react-query";
+import { AuthContext } from "../context/AuthContext";
+import { toaster } from "evergreen-ui";
 
 export const LoginPage = () => {
+    const { login } = useContext(AuthContext);
     const [text, setText] = useState({
         username: "",
         password: "",
     });
+
+    const mutation = useMutation(
+        (data) => {
+            return makeRequest.post("/login", data);
+        },
+        {
+            onSuccess: (data) => {
+                login(data.data);
+
+                toaster.success("Successfully signed in!", {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: "login-successful",
+                });
+            },
+            onError: (error) => {
+                console.log(error.response.data.message);
+
+                toaster.danger(error.response.data.message, {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: "login-failed",
+                });
+            },
+        }
+    );
 
     const handleChange = (event) => {
         setText((prev) => ({
@@ -16,7 +47,15 @@ export const LoginPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(text);
+        if (text.username === "" || text.password === "") {
+            return toaster.danger("Enter all the fields!", {
+                hasCloseButton: true,
+                duration: 3,
+                id: "login-failed",
+            });
+        }
+
+        mutation.mutate(text);
     };
 
     return (
