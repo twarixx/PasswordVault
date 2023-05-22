@@ -24,8 +24,10 @@ class AuthController extends Controller
         return response(["message"=> "Wrong username or password"], 401);
     }
 
-    public function logout()
+    public function logout(Request $request): void
     {
+        $request->session()->invalidate();
+
         Auth::logout();
     }
 
