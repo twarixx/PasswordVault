@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Models\Password;
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+
 class PasswordController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class PasswordController extends Controller
     {
         $validatedData = $request->validate([
             'url' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'required|string',
         ]);
