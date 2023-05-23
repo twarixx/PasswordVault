@@ -24,18 +24,25 @@ export const RegisterPage = () => {
 
 
     const handleChange = (event) => {
-        if (event.target.name == "password") {
-            if (event.target.value.length < 12) {
-                setValidation(event.target.value.length == 0 ? "" : "Password is too short!")
-            }
-            else if (!event.target.value.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-=_+{}[\]|;:',.<>?]).+$")) {
-                setValidation("Password does not contain lowercase, uppercase, special character or number!")
-            }
-            else {
-                setValidation("Everything looks fine!");
-            }
-        };
+        const password = document.getElementById("password");
 
+        password.addEventListener("blur", () => {
+            setValidation("");
+        });
+
+        password.addEventListener("focus", () => {
+            if (event.target.name == "password") {
+                if (event.target.value.length < 12) {
+                    setValidation(event.target.value.length == 0 ? "" : "Password is too short!")
+                }
+                else if (!event.target.value.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-=_+{}[\]|;:',.<>?]).+$")) {
+                    setValidation("Password does not contain lowercase, uppercase, special character or number!")
+                }
+                else {
+                    setValidation("Everything looks fine!");
+                }
+            }
+        });
         setText((prev) => ({
             ...prev,
             [event.target.name]: event.target.value,
@@ -72,6 +79,8 @@ export const RegisterPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        if (loggingIn) return;
 
         if (text.username === "" || text.password === "" || text.email === "" || text.confirmpassword === "") {
             return toaster.danger("Enter all the fields!", {
