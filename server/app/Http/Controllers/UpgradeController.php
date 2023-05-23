@@ -50,16 +50,6 @@ class UpgradeController extends Controller
             return response("You cant upgrade now!");
         }
 
-        if ($user->firstname == null ||
-            $user->lastname == null ||
-            $user->city == null ||
-            $user->zipcode == null ||
-            $user->bank == null
-        ) {
-            return response($user);
-
-        }
-
         $user->role = Role::FREE;
         $user->save();
 
