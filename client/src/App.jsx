@@ -10,6 +10,7 @@ import { UnknownPage } from "./pages/UnknownPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import { MainLayout } from "./layouts/MainLayout";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -36,7 +37,7 @@ function App() {
             path: "/",
             element: (
                 <LoggedIn>
-                    <Outlet />
+                    <MainLayout />
                 </LoggedIn>
             ),
             children: [
