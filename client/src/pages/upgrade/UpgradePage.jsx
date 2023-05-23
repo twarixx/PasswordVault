@@ -43,6 +43,7 @@ export const UpgradePage = () => {
     const handleRoleChange = (event, role) => {
         event.preventDefault();
 
+        if (upgrading) return;
         if (currentUser.role === role) {
             return toaster.danger("You are already on this plan!", {
                 hasCloseButton: true,
