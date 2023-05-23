@@ -18,6 +18,13 @@ export const UpgradePremiumPage = () => {
         bank: "",
     });
 
+    const handleChange = (event) => {
+        setText((prev) => ({
+            ...prev,
+            [event.target.name]: event.target.value,
+        }));
+    };
+
     const mutation = useMutation(
         (data) => {
             return makeRequest.post("/upgrade");
@@ -93,11 +100,16 @@ export const UpgradePremiumPage = () => {
 
             <div className="flex justify-center gap-6 w-[100vw] z-2">
                 <div className="bg-stone-600 rounded w-[60%] flex flex-col justify-between pt-2 px-4 pb-4 gap-2">
-                    <form className="flex flex-col items-center gap-4 w-full">
+                    <form
+                        onSubmit={handleRoleChange}
+                        className="flex flex-col items-center gap-4 w-full"
+                    >
                         <div className="flex gap-6 text-center w-full">
                             <div className="flex flex-col w-full">
                                 <label htmlFor="firstname">First Name</label>
                                 <input
+                                    value={text.firstname}
+                                    onChange={handleChange}
                                     className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                     type="text"
                                     id="firstname"
@@ -108,6 +120,8 @@ export const UpgradePremiumPage = () => {
                             <div className="flex flex-col w-full">
                                 <label htmlFor="lastname">Last Name</label>
                                 <input
+                                    value={text.lastname}
+                                    onChange={handleChange}
                                     className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                     type="text"
                                     id="lastname"
@@ -120,6 +134,8 @@ export const UpgradePremiumPage = () => {
                             <div className="flex flex-col w-full">
                                 <label htmlFor="zipcode">Zip Code</label>
                                 <input
+                                    value={text.zipcode}
+                                    onChange={handleChange}
                                     className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                     type="text"
                                     id="zipcode"
@@ -130,6 +146,8 @@ export const UpgradePremiumPage = () => {
                             <div className="flex flex-col w-full">
                                 <label htmlFor="city">City</label>
                                 <input
+                                    value={text.city}
+                                    onChange={handleChange}
                                     className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                     type="text"
                                     id="city"
@@ -142,6 +160,8 @@ export const UpgradePremiumPage = () => {
                             <div className="flex flex-col w-full">
                                 <label htmlFor="bank">Bank Number</label>
                                 <input
+                                    value={text.bank}
+                                    onChange={handleChange}
                                     className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                     type="text"
                                     id="bank"
@@ -151,7 +171,6 @@ export const UpgradePremiumPage = () => {
                         </div>
 
                         <button
-                            onClick={(e) => handleRoleChange(e)}
                             className={`${
                                 currentUser.role === "Paid"
                                     ? "bg-stone-500"
