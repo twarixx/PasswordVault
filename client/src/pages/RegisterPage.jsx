@@ -59,7 +59,7 @@ export const RegisterPage = () => {
                 });
             },
             onError: (error) => {
-                console.log(error.response.data.message);
+                setLoggingIn(false);
 
                 toaster.danger(error.response.data.message, {
                     hasCloseButton: true,
@@ -73,9 +73,17 @@ export const RegisterPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        mutation.mutate(text);
+        if (text.username === "" || text.password === "" || text.email === "" || text.confirmpassword === "") {
+            return toaster.danger("Enter all the fields!", {
+                hasCloseButton: true,
+                duration: 3,
+                id: "register-failed",
+            });
+        }
 
-        console.log(text);
+        setLoggingIn(true);
+
+        mutation.mutate(text);
     };
 
     return (
