@@ -39,7 +39,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
-            'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols(),
+            'password' => ['required', Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols()],
             'confirmpassword' => 'required_with:password|same:password',
         ]);
 
