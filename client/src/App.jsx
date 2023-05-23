@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+
 import { UnknownPage } from "./pages/UnknownPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
@@ -58,6 +60,20 @@ function App() {
                 {
                     path: "/login",
                     element: <LoginPage />,
+                },
+            ],
+        },
+        {
+            path: "/",
+            element: (
+                <LoggedOut>
+                    <Outlet />
+                </LoggedOut>
+            ),
+            children: [
+                {
+                    path: "/register",
+                    element: <RegisterPage />,
                 },
             ],
         },
