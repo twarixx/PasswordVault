@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,3 +23,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'authenticate']);
 
 Route::middleware('auth')->post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('guest')->post('/register', [AuthController::class, 'register']);
+
+Route::middleware('auth')->get('/testauth', function () {
+    return response(Auth::user());
+});
