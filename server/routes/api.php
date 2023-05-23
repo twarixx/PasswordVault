@@ -27,5 +27,6 @@ Route::middleware('auth')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('guest')->post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth')->get('/testauth', function () {
+
     return response(Auth::user());
 });
