@@ -182,7 +182,7 @@ export const RegisterPage = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
