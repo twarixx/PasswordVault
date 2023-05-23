@@ -57,6 +57,7 @@ export const UpgradePremiumPage = () => {
     const handleRoleChange = (event) => {
         event.preventDefault();
 
+        if (upgrading) return;
         if (
             text.firstname === "" ||
             text.lastname === "" ||
