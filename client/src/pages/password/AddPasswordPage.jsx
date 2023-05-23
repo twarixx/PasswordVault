@@ -30,7 +30,7 @@ export const AddPasswordPage = () => {
         {
             onSuccess: (data) => {
                 setSaving(false);
-                login(data.data);
+                save(data.data);
 
                 navigate("/");
 
@@ -64,8 +64,6 @@ export const AddPasswordPage = () => {
             });
         }
 
-        setLoggingIn(true);
-
         mutation.mutate(text);
     };
 
@@ -80,7 +78,7 @@ export const AddPasswordPage = () => {
                 </div>
                 <div className=" flex flex-col border-2 h-[75%] bg-stone-600 w-[75%] justify-center border-black rounded">
                     <form
-                        onSubmit={handleChange}
+                        onSubmit={handleSubmit}
                     >
                         <div className="flex justify-between">
                             <div className="flex flex-col mt-4">
@@ -193,11 +191,11 @@ export const AddPasswordPage = () => {
                                     />
                                 </div>
                                 <div className=" mt-40">
-                                    <div className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 py-2">
-                                        <Link to="/">
+                                    <Link to="/">
+                                        <div className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 py-2">
                                             <p>Back</p>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
