@@ -27,7 +27,7 @@ export const UpgradePremiumPage = () => {
 
     const mutation = useMutation(
         (data) => {
-            return makeRequest.post("/upgrade");
+            return makeRequest.post("/upgrade", data);
         },
         {
             onSuccess: (data) => {
@@ -57,19 +57,19 @@ export const UpgradePremiumPage = () => {
     const handleRoleChange = (event) => {
         event.preventDefault();
 
-        // if (
-        //     text.firstname === "" ||
-        //     text.lastname === "" ||
-        //     text.zipcode === "" ||
-        //     text.city === "" ||
-        //     text.bank === ""
-        // ) {
-        //     return toaster.danger("Enter all the fields!", {
-        //         hasCloseButton: true,
-        //         duration: 5,
-        //         id: "upgrade-failed",
-        //     });
-        // }
+        if (
+            text.firstname === "" ||
+            text.lastname === "" ||
+            text.zipcode === "" ||
+            text.city === "" ||
+            text.bank === ""
+        ) {
+            return toaster.danger("Enter all the fields!", {
+                hasCloseButton: true,
+                duration: 5,
+                id: "upgrade-failed",
+            });
+        }
 
         setUpgrading(true);
         mutation.mutate(text);
