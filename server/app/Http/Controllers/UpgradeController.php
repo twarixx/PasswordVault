@@ -32,7 +32,7 @@ class UpgradeController extends Controller
         $user->role = Role::PAID;
         $user->save();
 
-        return response(["message" => "Upgrade successfully"]);
+        return response($user);
     }
 
     public function downgrade()
