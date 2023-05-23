@@ -42,7 +42,7 @@ class AuthController extends Controller
             'username' => 'required',
             'email' => 'required|email',
             'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols(),
-            'passwordconfirm' => 'required_with:password|same:password',
+            'confirmpassword' => 'required_with:password|same:password',
         ]);
 
         $user = User::create($request->all());
