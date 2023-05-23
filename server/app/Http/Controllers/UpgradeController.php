@@ -15,20 +15,25 @@ class UpgradeController extends Controller
 
         $user = User::find($authUser->id);
 
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'city' => 'required',
+            'bank' => 'required',
+            'zipcode' => 'required',
+        ]);
+
         if ($user->role() == Role::PAID || $user->role == Role::ADMIN) {
             return response("You cant upgrade now!");
         }
 
-        if ($user->firstname == null ||
-            $user->lastname == null ||
-            $user->city == null ||
-            $user->zipcode == null ||
-            $user->bank == null
-            ) {
-            return response($user);
-
-        }
-
+        $user->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'city' => $request->city,
+            'bank' => $request->bank,
+            'zipcode' => $request->zipcode,
+        ]);
         $user->role = Role::PAID;
         $user->save();
 
@@ -60,4 +65,6 @@ class UpgradeController extends Controller
 
         return response($user);
     }
+
+
 }
