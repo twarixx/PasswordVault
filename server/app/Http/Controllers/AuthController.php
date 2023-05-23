@@ -41,7 +41,7 @@ class AuthController extends Controller
             'city' => 'max:255',
             'username' => 'required',
             'email' => 'required|email',
-            'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols(),
+            'password' => ['required', Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols()],
             'confirmpassword' => 'required_with:password|same:password',
         ]);
 
