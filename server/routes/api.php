@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 
-Route::middleware('auth')->get('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth')->post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('guest')->post('/register', [AuthController::class, 'register']);
 
