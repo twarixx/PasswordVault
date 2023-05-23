@@ -40,15 +40,15 @@ class AuthController extends Controller
             'zipcode' => 'max:255',
             'city' => 'max:255',
             'username' => 'required',
-            'type' => 'max:255',
             'email' => 'required|email',
-            'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols()
+            'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols(),
+            'passwordconfirm' => 'required_with:password|same:password',
         ]);
 
         $user = User::create($request->all());
 
         Auth::login($user);
 
-        return response($user, 200);
+        return response($user);
     }
 }
