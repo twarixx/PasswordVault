@@ -13,6 +13,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
+import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
+
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -47,8 +49,16 @@ function App() {
                     path: "/",
                     element: <DashboardPage />,
                 },
+                {
+                    path: "/passwordadd",
+                    element: <AddPasswordPage />,
+                }
             ],
+
         },
+
+
+
         {
             path: "/",
             element: (
