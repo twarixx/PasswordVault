@@ -54,6 +54,7 @@ export const LoginPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        if (loggingIn) return;
         if (text.username === "" || text.password === "") {
             return toaster.danger("Enter all the fields!", {
                 hasCloseButton: true,
