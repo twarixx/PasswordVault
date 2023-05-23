@@ -1,20 +1,15 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { UserDropdown } from "./dropdowns/UserDropdown";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export const NavBar = () => {
-    const { currentUser, logout } = useContext(AuthContext);
+    const [search, setSearch] = useState("");
 
-    const handleLogout = (event) => {
+    const submitSearch = (event) => {
         event.preventDefault();
 
-        logout();
-        navigate("/login");
-        toaster.success("Successfully signed out!", {
-            hasCloseButton: true,
-            duration: 5,
-            id: "logout-successful",
-        });
+        // TODO: Just add your search functionality here!
     };
 
     return (
@@ -24,9 +19,21 @@ export const NavBar = () => {
                     PASSWORD VAULT
                 </p>
             </Link>
-            <p onClick={handleLogout} className="text-lg hover:cursor-pointer">
-                {currentUser.username}
-            </p>
+
+            <div className="w-[50%]">
+                <form onSubmit={submitSearch}>
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full bg-stone-500 text-white placeholder-white pl-9 relative px-2 py-1 rounded outline outline-stone-600 focus:outline-sky-500 hover:outline-sky-500 ring-0"
+                        type="text"
+                        placeholder="Search your vault"
+                    />
+                </form>
+                <AiOutlineSearch className="absolute top-5 ml-1.5" size={24} />
+            </div>
+
+            <UserDropdown />
         </div>
     );
 };

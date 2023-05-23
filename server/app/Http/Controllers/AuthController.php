@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -34,18 +35,19 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'firstname' => 'max:255',
-            'lastname' => 'max:255',
-            'zipcode' => 'max:255',
-            'city' => 'max:255',
+        $validated = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
-            'password' => Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols(),
+            'password' => ['required', Password::min(12)->mixedCase()->numbers()->uncompromised()->symbols()],
             'confirmpassword' => 'required_with:password|same:password',
         ]);
 
-        $user = User::create($request->all());
+        $user = User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'role' => \App\Enums\Role::FREE,
+        ]);
 
         Auth::login($user);
 

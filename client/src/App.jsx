@@ -9,12 +9,14 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 
 import { UnknownPage } from "./pages/UnknownPage";
+import { UpgradePage } from "./pages/upgrade/UpgradePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
-import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
 
+import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
+import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -52,7 +54,15 @@ function App() {
                 {
                     path: "/passwordadd",
                     element: <AddPasswordPage />,
-                }
+                },
+                {
+                    path: "/upgrade",
+                    element: <UpgradePage />,
+                },
+                {
+                    path: "/upgrade/paid",
+                    element: <UpgradePremiumPage />,
+                },
             ],
 
         },
