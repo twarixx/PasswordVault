@@ -27,6 +27,7 @@ class User extends Authenticatable
         'city',
         'password',
         'role',
+        'bank',
     ];
 
     /**
@@ -51,6 +52,6 @@ class User extends Authenticatable
 
     public function role()
     {
-        return Role::Role($this->role);
+        return Role::getRole($this->role);
     }
 }
