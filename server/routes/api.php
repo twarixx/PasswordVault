@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UpgradeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +31,7 @@ Route::middleware('auth')->get('/testauth', function () {
 
     return response(Auth::user());
 });
+
+Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
+
+Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);
