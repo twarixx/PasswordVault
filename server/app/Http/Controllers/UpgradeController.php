@@ -55,7 +55,7 @@ class UpgradeController extends Controller
 
         }
 
-        $user->role = Role::PAID;
+        $user->role = Role::FREE;
         $user->save();
 
         return response($user);
