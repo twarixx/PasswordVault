@@ -18,9 +18,10 @@ use App\Http\Controllers\API\PasswordController;
 |
 */
 
-});
-     return $request->user();
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
 Route::post('/passwords/show', [PasswordController::class, 'show']);
 Route::middleware('auth')->put('/passwords/{password}', [PasswordController::class, 'update']);
