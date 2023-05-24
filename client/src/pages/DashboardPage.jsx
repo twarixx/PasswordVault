@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
 import { Category } from "../components/Category";
+import { CategroyList } from "../components/CategoryList";
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +22,7 @@ export const DashboardPage = () => {
                             </p>
                         </div>
 
-                        <div className="bg-stone-600 w-full rounded">
-                            <Category name="Socials" />
-                            <Category name="Games" />
-                            <Category name="Work" />
-                            <Category name="Super Secret" />
-                        </div>
+                        <CategoryList />
                     </div>
 
                     <div className="w-[70%] flex flex-col gap-6">
