@@ -4,10 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use App\Models\User;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
+    const SALT = '645367566B59703373367639792442264529482B4D6251655468576D5A7134743777217A25432A462D4A614E635266556A586E3272357538782F413F4428472B4B6250655367566B5970337336763979244226452948404D635166546A576D5A7134743777217A25432A462D4A614E645267556B58703272357538782F413F44';
+
     /**
      * Display a listing of the resource.
      */
@@ -29,18 +34,29 @@ class PasswordController extends Controller
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'string',
+            'masterpassword' => 'required|string',
         ]);
+
+        $this->checkMasterPassword($validatedData['masterpassword']);
+
+        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+
+        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
+
         $password = Password::create($validatedData);
 
-        return response()->json($password, 201);
+        return response()->json($masterPasswordBase64Encoded, 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Password $password)
+    public function show(Request $request)
     {
         // return JSON response with the password
+
         return response()->json($password);
     }
 
@@ -54,11 +70,17 @@ class PasswordController extends Controller
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'string',
+            'masterpassword' => 'required|string'
         ]);
 
+        $masterPasswordBase64Encoded = base64_encode($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded);
+
+        $encrypter->encrypt();
         $password->update($validatedData);
 
-        return response()->json($password, 200);
+        return response()->json($masterPasswordBase64Encoded, 200);
     }
 
     /**
@@ -70,4 +92,14 @@ class PasswordController extends Controller
 
         return response()->json(null, 204);
     }
+    protected function checkMasterPassword($masterPassword) {
+
+        $user = Auth::user();
+        $hasher = app('hash');
+        if (!$hasher->check($masterPassword, $user->password)) {
+            // NOT Success
+            return response('password is incorrect');
+        }
+    }
+
 }
