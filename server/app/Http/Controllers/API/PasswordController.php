@@ -32,9 +32,11 @@ class PasswordController extends Controller
             'masterpassword' => 'required|string',
         ]);
 
+        $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
+
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-        $validatedData = $this->encrypt($validatedData);
+        $validatedData['password'] = $this->encrypt($validatedData["masterpassword"], $validatedData['password']);
 
         $password = Password::create([
             'website' => $validatedData['website'] ,
@@ -78,13 +80,13 @@ class PasswordController extends Controller
             'masterpassword' => 'required|string'
         ]);
 
-        $this->checkMasterPassword($validatedData['masterpassword']);
+        $this->checkMasterPassword($validatedData['masterpassword'], $validatedData['password']);
 
-        $validatedData = $this->encrypt($validatedData);
+        $validatedData = $this->encrypt($validatedData['masterpassword'], $validatedData);
 
         $password->update($validatedData);
 
-        return response()->json($masterPasswordBase64Encoded, 200);
+        return response()->json($validatedData, 200);
     }
 
     /**
@@ -107,25 +109,37 @@ class PasswordController extends Controller
         }
     }
 
-    protected function decrypt($passwordData, $validatedData)
+    protected function decrypt($passwordData, $password)
     {
-        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+        $masterPasswordMd5Encoded = md5($password);
+
+        $encrypter = new Encrypter($masterPasswordMd5Encoded, 'AES-256-CBC');
+
+        return $encrypter->decryptString($passwordData);
+    }
+
+    protected function encrypt($masterpassword, $validatedData)
+    {
+        $masterPasswordBase64Encoded = md5($masterpassword);
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
-        $validatedData["password"] = $encrypter->decrypt($passwordData["password"]);
+        $validatedData = $encrypter->encryptString($validatedData);
 
         return $validatedData;
     }
 
-    protected function encrypt($validatedData)
+    private function checkIfPasswordAlreadyExists($masterpassword, $password)
     {
-        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+        $savedEncryptedPasswords = Auth::user()->passwords;
 
-        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+        Auth::user()->passwords()->each(function (Password $encryptedPassword) use ($masterpassword, $password) {
+            $plainPassword = $this->decrypt($encryptedPassword['password'], $masterpassword);
 
-        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
+            if($plainPassword == $password) {
+                throw new \Exception("password is already in use");
+            }
 
-        return $validatedData;
+        });
     }
 }
