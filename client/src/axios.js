@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 export const makeRequest = axios.create({
     baseURL: "http://localhost/api",

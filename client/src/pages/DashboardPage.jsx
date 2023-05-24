@@ -5,13 +5,17 @@ import { toaster } from "evergreen-ui";
 import { Link } from "react-router-dom";
 import { Category } from "../components/Category";
 import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
+import { MasterPasswordContext } from "../context/MasterPasswordContext";
+import { PasswordOverview } from "../components/PasswordOverview";
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { currentUser } = useContext(AuthContext);
+
     const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
+
 
     const navigate = useNavigate();
 
@@ -40,16 +44,24 @@ export const DashboardPage = () => {
                     </div>
 
                     <div className="w-[70%] flex flex-col gap-6">
-                        <div className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16">
-                            <p className="font-semibold text-xl">
-                                Add Password
-                            </p>
-                        </div>
+                        {masterPassword ? (useNavigate("/passwordadd")) : (
+                            <>
+                                <div onClick={() => setIsOpen(true)} className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16">
+                                    <p className="font-semibold text-xl">
+                                        Add Password
+                                    </p>
+
+                                </div>
+                            </>
+                        )}
                         <div className="bg-stone-600 w-full rounded">
                             <div className="flex items-center justify-center py-4">
                                 <p className="font-semibold text-xl">
                                     List of passwords!
                                 </p>
+                            </div>
+                            <div className="bg-stone-600 w-full rounded">
+                                <PasswordOverview />
                             </div>
                         </div>
                     </div>
