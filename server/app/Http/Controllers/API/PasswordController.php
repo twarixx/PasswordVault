@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
-use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {
@@ -17,8 +15,9 @@ class PasswordController extends Controller
      */
     public function index()
     {
+        $user = Auth::User();
         //get all passwords
-        $passwords = Password::all();
+        $passwords = Password::findOrFail($user);
         //return JSON response with the passwords
         return response()->json($passwords);
     }
@@ -81,7 +80,6 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded);
 
-        $encrypter->encrypt();
         $password->update($validatedData);
 
         return response()->json($masterPasswordBase64Encoded, 200);
@@ -124,9 +122,8 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
-        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
+        $validatedData["password"] = $encrypter->decrypt($validatedData["password"]);
 
         return $validatedData;
     }
-
 }
