@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {
@@ -50,12 +51,15 @@ class PasswordController extends Controller
     public function show(Request $request)
     {
         $validatedData = $request->validate([
+            'id' => 'required|int',
             'masterpassword' => 'required|string',
         ]);
 
+        $passwordData = Password::find($validatedData['id']);
+
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-
+        $password = $this->decrypt($passwordData, $validatedData);
 
         return response()->json($password);
     }
@@ -103,8 +107,19 @@ class PasswordController extends Controller
         }
     }
 
-    protected function encrypt($validatedData) {
+    protected function decrypt($passwordData, $validatedData)
+    {
+        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
 
+        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+
+        $validatedData["password"] = $encrypter->decrypt($passwordData["password"]);
+
+        return $validatedData;
+    }
+
+    protected function encrypt($validatedData)
+    {
         $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
