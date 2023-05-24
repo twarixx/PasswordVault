@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserDropdown } from "./dropdowns/UserDropdown";
 import { AiOutlineSearch } from "react-icons/ai";
 
 export const NavBar = () => {
     const [search, setSearch] = useState("");
+    const navigate = useNavigate();
 
     const submitSearch = (event) => {
         event.preventDefault();
 
-        // TODO: Just add your search functionality here!
+        if (search === "") return;
+
+        navigate(`/query/${search}`);
+        setSearch("");
     };
 
     return (

@@ -38,6 +38,6 @@ Route::post('/passwords', [PasswordController::class, 'store']);
 Route::get('/passwords/{password}', [PasswordController::class, 'show']);
 Route::put('/passwords/{password}', [PasswordController::class, 'update']);
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
-Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 
+Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);

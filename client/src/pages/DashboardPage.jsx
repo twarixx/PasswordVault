@@ -1,8 +1,16 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toaster } from "evergreen-ui";
+import { MasterPasswordContext } from "../context/MasterPasswordContext";
+
 export const DashboardPage = () => {
     const { currentUser } = useContext(AuthContext);
+    const { masterPassword, setMasterPassword } = useContext(
+        MasterPasswordContext
+    );
+
+    const navigate = useNavigate();
 
     return (
         <div className="flex justify-between gap-24 mx-24 w-[100vw] z-2">
