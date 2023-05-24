@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'string',
         ]);
 
         $category = Category::create([
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'string',
         ]);
 
         $category->update($validatedData);
