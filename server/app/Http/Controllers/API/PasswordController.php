@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {
@@ -15,11 +17,9 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $user = Auth::User();
-        //get all passwords
-        $passwords = Password::findOrFail($user);
-        //return JSON response with the passwords
-        return response()->json($passwords);
+        $passwords = Auth::user()->passwords;
+
+        return response($passwords);
     }
 
     /**
@@ -39,7 +39,13 @@ class PasswordController extends Controller
 
         $validatedData = $this->encrypt($validatedData);
 
-        $password = Password::create($validatedData);
+        $password = Password::create([
+            'website' => $validatedData['website'] ,
+            'password' => $validatedData['password'] ,
+            'username' => $validatedData['username'],
+            'category' => $validatedData['category'],
+            'user_id' => Auth::user()->id
+        ]);
 
         return response()->json($password);
     }
@@ -69,6 +75,7 @@ class PasswordController extends Controller
     public function update(Request $request, Password $password)
     {
         $validatedData = $request->validate([
+            'id' => 'required|int',
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
@@ -122,7 +129,7 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
-        $validatedData["password"] = $encrypter->decrypt($validatedData["password"]);
+        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
 
         return $validatedData;
     }

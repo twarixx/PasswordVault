@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { NavBar } from "../components/NavBar";
 
 export const MainLayout = () => {
