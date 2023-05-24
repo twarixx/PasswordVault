@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory;
 
     //add name and password to fillable
-    protected $fillable = ['name', 'password_id'];
+    protected $fillable = ['name', 'password_id', 'user_id'];
 
     public function passwords(): BelongsTo 
     {
