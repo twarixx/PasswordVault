@@ -5,6 +5,7 @@ use App\Http\Controllers\UpgradeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\API\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+     return $request->user();
+});
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 
@@ -32,6 +33,11 @@ Route::middleware('auth')->get('/testauth', function () {
     return response(Auth::user());
 });
 
-Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
+Route::get('/passwords', [PasswordController::class, 'index']);
+Route::post('/passwords', [PasswordController::class, 'store']);
+Route::get('/passwords/{password}', [PasswordController::class, 'show']);
+Route::put('/passwords/{password}', [PasswordController::class, 'update']);
+Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
 
+Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);
