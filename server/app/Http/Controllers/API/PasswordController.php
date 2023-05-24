@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
-use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {
@@ -31,7 +29,6 @@ class PasswordController extends Controller
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
-            'category' => 'string',
             'masterpassword' => 'required|string',
         ]);
 
@@ -43,7 +40,6 @@ class PasswordController extends Controller
             'website' => $validatedData['website'] ,
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
-            'category' => $validatedData['category'],
             'user_id' => Auth::user()->id
         ]);
 
@@ -79,13 +75,12 @@ class PasswordController extends Controller
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
-            'category' => 'string',
             'masterpassword' => 'required|string'
         ]);
 
-        $masterPasswordBase64Encoded = base64_encode($validatedData['masterpassword']);
+        $this->checkMasterPassword($validatedData['masterpassword']);
 
-        $encrypter = new Encrypter($masterPasswordBase64Encoded);
+        $validatedData = $this->encrypt($validatedData);
 
         $password->update($validatedData);
 
