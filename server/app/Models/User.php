@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return Role::getRole($this->role);
     }
+
+    public function categories() 
+    {
+        return $this->hasMany(Category::class);
+    }
 }

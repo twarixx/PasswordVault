@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -13,10 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //get all categories
-        $categories = Category::all();
-        //return JSON response with the categories
-        return response()->json($categories);
+        return response(Auth::user()->categories);
     }
 
     /**
@@ -29,7 +27,11 @@ class CategoryController extends Controller
             'password' => 'required|string',
         ]);
 
-        $category = Category::create($validatedData);
+        $category = Category::create([
+            'name' => $request->name,
+            'password' => $request->password,
+            'user_id' => Auth::User()->id,
+        ]);
 
         return response()->json($category, 201);
     }
