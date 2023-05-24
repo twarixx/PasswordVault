@@ -27,9 +27,9 @@ export const PasswordOverview = () => {
             <div className="flex justify-between">
                 <div className="flex mt-4">
                     <ul>
-                        <li>Lucaspinder9@gmail.com</li>
-                        <li>Lucaspinder</li>
-                        <li>Hyves</li>
+                        <li>{item.email}</li>
+                        <li>{item.username}</li>
+                        <li>{item.website}</li>
                     </ul>
                 </div>
                 <div className="flex flex-row gap-2 mt-4">

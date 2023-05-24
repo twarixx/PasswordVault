@@ -1,12 +1,13 @@
 import { Dialog } from '@headlessui/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
+import { MasterPasswordContext } from '../../context/MasterPasswordContext';
 
-export const MasterPasswordDialog = ({ isOpen, onClose }) => {
+export const MasterPasswordDialog = ({ isOpen, onClose, destination }) => {
     const [masterPassword, setMasterPassword] = useState("");
     const navigate = useNavigate();
-
+    const { updateMasterPassword } = useContext(MasterPasswordContext);
 
 
     return (
@@ -54,7 +55,10 @@ export const MasterPasswordDialog = ({ isOpen, onClose }) => {
                                     <button
                                         type="button"
                                         className="bg-sky-500 h-12  flex justify-center w-[250px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded   px-4 mt-5 py-2"
-                                        onClick={() => navigate("/passwordadd")}
+                                        onClick={() => {
+                                            navigate(destination);
+                                            updateMasterPassword(masterPassword);
+                                        }}
                                     >
                                         Authenticate !
                                     </button>

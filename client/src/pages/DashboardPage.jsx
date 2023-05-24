@@ -24,6 +24,7 @@ export const DashboardPage = () => {
             <MasterPasswordDialog
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
+                destination="/passwordadd"
             />
 
             <div className="flex w-[100vw] mx-24">
@@ -44,7 +45,13 @@ export const DashboardPage = () => {
                     </div>
 
                     <div className="w-[70%] flex flex-col gap-6">
-                        {masterPassword ? (useNavigate("/passwordadd")) : (
+                        {masterPassword ? (
+                            <Link to="/passwordadd" className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16">
+                                <p className="font-semibold text-xl">
+                                    Add Password
+                                </p>
+                            </Link>
+                        ) : (
                             <>
                                 <div onClick={() => setIsOpen(true)} className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16">
                                     <p className="font-semibold text-xl">
@@ -66,7 +73,7 @@ export const DashboardPage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

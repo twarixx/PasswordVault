@@ -125,7 +125,7 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
-        $validatedData["password"] = $encrypter->decrypt($validatedData["password"]);
+        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
 
         return $validatedData;
     }
