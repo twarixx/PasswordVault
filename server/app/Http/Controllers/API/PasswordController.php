@@ -17,10 +17,7 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        //get all passwords
-//        $passwords = Password::with('user')->where('user_id', '=', Auth::user()->id)->get();
         $passwords = Auth::user()->passwords;
-        //return JSON response with the passwords
 
         return response($passwords);
     }
@@ -42,7 +39,13 @@ class PasswordController extends Controller
 
         $validatedData = $this->encrypt($validatedData);
 
-        $password = Password::create($validatedData);
+        $password = Password::create([
+            'website' => $validatedData['website'] ,
+            'password' => $validatedData['password'] ,
+            'username' => $validatedData['username'],
+            'category' => $validatedData['category'],
+            'user_id' => Auth::user()->id
+        ]);
 
         return response()->json($password);
     }
@@ -72,6 +75,7 @@ class PasswordController extends Controller
     public function update(Request $request, Password $password)
     {
         $validatedData = $request->validate([
+            'id' => 'required|int',
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',

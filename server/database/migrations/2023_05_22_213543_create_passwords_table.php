@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignid('user_id')->constrained('users');
             $table->string('website');
             $table->string('username');
-            $table->string('password');
+            $table->mediumText('password');
             $table->string('category')->nullable();
             $table->timestamps();
         });
