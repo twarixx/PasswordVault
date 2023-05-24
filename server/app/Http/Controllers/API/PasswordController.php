@@ -30,10 +30,10 @@ class PasswordController extends Controller
         $data = $request->all();
 
         $validatedData = $request->validate([
-            'url' => 'required|string',
+            'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
-            'category' => 'required|string',
+            'category' => 'string',
         ]);
 
         $password = Password::create($validatedData);
@@ -56,10 +56,10 @@ class PasswordController extends Controller
     public function update(Request $request, Password $password)
     {
         $validatedData = $request->validate([
-            'url' => 'required|string',
+            'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
-            'category' => 'required|string',
+            'category' => 'string',
         ]);
 
         $password->update($validatedData);
