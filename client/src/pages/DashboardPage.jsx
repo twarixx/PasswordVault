@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
-import { Category } from "../components/Category";
-import { CategroyList } from "../components/CategoryList";
+import { CategoryList } from "../components/CategoryList";
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
