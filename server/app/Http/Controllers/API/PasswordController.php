@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
-    const SALT = '645367566B59703373367639792442264529482B4D6251655468576D5A7134743777217A25432A462D4A614E635266556A586E3272357538782F413F4428472B4B6250655367566B5970337336763979244226452948404D635166546A576D5A7134743777217A25432A462D4A614E645267556B58703272357538782F413F44';
-
     /**
      * Display a listing of the resource.
      */
@@ -39,15 +37,11 @@ class PasswordController extends Controller
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
-
-        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
-
-        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
+        $validatedData = $this->encrypt($validatedData);
 
         $password = Password::create($validatedData);
 
-        return response()->json($masterPasswordBase64Encoded, 200);
+        return response()->json($password);
     }
 
     /**
@@ -55,7 +49,13 @@ class PasswordController extends Controller
      */
     public function show(Request $request)
     {
-        // return JSON response with the password
+        $validatedData = $request->validate([
+            'masterpassword' => 'required|string',
+        ]);
+
+        $this->checkMasterPassword($validatedData['masterpassword']);
+
+
 
         return response()->json($password);
     }
@@ -92,6 +92,7 @@ class PasswordController extends Controller
 
         return response()->json(null, 204);
     }
+
     protected function checkMasterPassword($masterPassword) {
 
         $user = Auth::user();
@@ -100,6 +101,17 @@ class PasswordController extends Controller
             // NOT Success
             return response('password is incorrect');
         }
+    }
+
+    protected function encrypt($validatedData) {
+
+        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+
+        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
+
+        return $validatedData;
     }
 
 }
