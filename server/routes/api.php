@@ -28,10 +28,6 @@ Route::middleware('auth')->put('/passwords/{password}', [PasswordController::cla
 Route::post('/passwords', [PasswordController::class, 'store']);
 Route::get('/passwords', [PasswordController::class, 'index']);
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
-Route::middleware('auth')->put('/passwords/{password}', [PasswordController::class, 'update']);
-Route::post('/passwords/show', [PasswordController::class, 'show']);
-Route::post('/passwords', [PasswordController::class, 'store']);
-Route::get('/passwords', [PasswordController::class, 'index']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store']);
@@ -59,4 +55,11 @@ Route::middleware('auth')->delete('/passwords/{password}', [PasswordController::
 Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);
 
-
+Route::middleware('auth')->post('/masterpassword', function ($masterPassword) { 
+    $user = Auth::user();
+    $hasher = app('hash');
+    if (!$hasher->check($masterPassword, $user->password)) {
+        // NOT Successs
+        return response('password is incorrect');
+    }
+});
