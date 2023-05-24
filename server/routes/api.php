@@ -23,9 +23,6 @@ Route::post('/passwords', [PasswordController::class, 'store']);
 Route::post('/passwords/show', [PasswordController::class, 'show']);
 Route::middleware('auth')->put('/passwords/{password}', [PasswordController::class, 'update']);
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-     return $request->user();
-});
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 
@@ -46,3 +43,12 @@ Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
 
 Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);
+
+Route::middleware('auth')->post('/masterpassword', function ($masterPassword) { 
+    $user = Auth::user();
+    $hasher = app('hash');
+    if (!$hasher->check($masterPassword, $user->password)) {
+        // NOT Successs
+        return response('password is incorrect');
+    }
+});
