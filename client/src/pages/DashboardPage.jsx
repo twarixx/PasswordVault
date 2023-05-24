@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toaster } from "evergreen-ui";
 import { MasterPasswordContext } from "../context/MasterPasswordContext";
+import { Link } from "react-router-dom";
 
 export const DashboardPage = () => {
     const { currentUser } = useContext(AuthContext);

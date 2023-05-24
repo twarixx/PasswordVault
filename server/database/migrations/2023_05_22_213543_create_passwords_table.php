@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('passwords', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->string('website');
             $table->string('username');
             $table->string('password');
-            $table->string('category');
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }
