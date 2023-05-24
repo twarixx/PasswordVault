@@ -4,6 +4,8 @@ import { toaster } from "evergreen-ui";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
+//import { MasterPasswordContext } from "../context/MasterPasswordContext";
+
 
 export const AddPasswordPage = () => {
     const [text, setText] = useState({
