@@ -32,13 +32,10 @@ export const DashboardPage = () => {
                         </div>
 
                         <div className="bg-stone-600 w-full rounded">
-                            <div className="flex items-center justify-center py-4 pb-3">
-                                <p className="font-semibold text-xl">
-                                    Add Category
-                                </p>
-                            </div>
-
-                            <Category name="Test" />
+                            <Category name="Socials" />
+                            <Category name="Games" />
+                            <Category name="Work" />
+                            <Category name="Super Secret" />
                         </div>
                     </div>
 
