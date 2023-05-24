@@ -9,6 +9,6 @@ class Password extends Model
 {
     use HasFactory;
 
-    //add website, username, password and category to fillable
-    protected $fillable = ['website', 'username', 'password', 'category'];
+    //add User, website, username, password and category to fillable
+    protected $fillable = ['User', 'website', 'username', 'password', 'category'];
 }

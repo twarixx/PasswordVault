@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
@@ -16,8 +15,9 @@ class PasswordController extends Controller
      */
     public function index()
     {
+        $user = Auth::User();
         //get all passwords
-        $passwords = Password::all();
+        $passwords = Password::findOrFail($user);
         //return JSON response with the passwords
         return response()->json($passwords);
     }
@@ -27,26 +27,39 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-
         $validatedData = $request->validate([
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'string',
+            'masterpassword' => 'required|string',
         ]);
+
+        $this->checkMasterPassword($validatedData['masterpassword']);
+
+        $validatedData = $this->encrypt($validatedData);
 
         $password = Password::create($validatedData);
 
-        return response()->json($password, 201);
+        return response()->json($password);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Password $password)
+    public function show(Request $request)
     {
-        // return JSON response with the password
+        $validatedData = $request->validate([
+            'id' => 'required|int',
+            'masterpassword' => 'required|string',
+        ]);
+
+        $passwordData = Password::find($validatedData['id']);
+
+        $this->checkMasterPassword($validatedData['masterpassword']);
+
+        $password = $this->decrypt($passwordData, $validatedData);
+
         return response()->json($password);
     }
 
@@ -60,11 +73,16 @@ class PasswordController extends Controller
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'string',
+            'masterpassword' => 'required|string'
         ]);
+
+        $masterPasswordBase64Encoded = base64_encode($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded);
 
         $password->update($validatedData);
 
-        return response()->json($password, 200);
+        return response()->json($masterPasswordBase64Encoded, 200);
     }
 
     /**
@@ -75,5 +93,37 @@ class PasswordController extends Controller
         $password->delete();
 
         return response()->json(null, 204);
+    }
+
+    protected function checkMasterPassword($masterPassword) {
+
+        $user = Auth::user();
+        $hasher = app('hash');
+        if (!$hasher->check($masterPassword, $user->password)) {
+            // NOT Success
+            return response('password is incorrect');
+        }
+    }
+
+    protected function decrypt($passwordData, $validatedData)
+    {
+        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+
+        $validatedData["password"] = $encrypter->decrypt($passwordData["password"]);
+
+        return $validatedData;
+    }
+
+    protected function encrypt($validatedData)
+    {
+        $masterPasswordBase64Encoded = md5($validatedData['masterpassword']);
+
+        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
+
+        $validatedData["password"] = $encrypter->decrypt($validatedData["password"]);
+
+        return $validatedData;
     }
 }
