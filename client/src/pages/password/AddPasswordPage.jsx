@@ -5,6 +5,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
 //import { MasterPasswordContext } from "../context/MasterPasswordContext";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 
 export const AddPasswordPage = () => {
@@ -15,6 +19,10 @@ export const AddPasswordPage = () => {
         password: "",
         confirmpassword: "",
     });
+
+    const queryClient = useQueryClient();
+    const { currentUser } = useContext(AuthContext);
+
 
     const [Saving, setSaving] = useState(false);
     const handleChange = (event) => {
@@ -33,6 +41,8 @@ export const AddPasswordPage = () => {
             onSuccess: (data) => {
                 setSaving(false);
                 save(data.data);
+
+                queryClient.invalidateQueries(["passwords", currentUser.username]);
 
                 navigate("/");
 
