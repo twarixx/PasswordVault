@@ -6,10 +6,15 @@ import {
 } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+
 import { UnknownPage } from "./pages/UnknownPage";
+import { UpgradePage } from "./pages/upgrade/UpgradePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import { MainLayout } from "./layouts/MainLayout";
+import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -36,13 +41,21 @@ function App() {
             path: "/",
             element: (
                 <LoggedIn>
-                    <Outlet />
+                    <MainLayout />
                 </LoggedIn>
             ),
             children: [
                 {
                     path: "/",
                     element: <DashboardPage />,
+                },
+                {
+                    path: "/upgrade",
+                    element: <UpgradePage />,
+                },
+                {
+                    path: "/upgrade/paid",
+                    element: <UpgradePremiumPage />,
                 },
             ],
         },
@@ -57,6 +70,20 @@ function App() {
                 {
                     path: "/login",
                     element: <LoginPage />,
+                },
+            ],
+        },
+        {
+            path: "/",
+            element: (
+                <LoggedOut>
+                    <Outlet />
+                </LoggedOut>
+            ),
+            children: [
+                {
+                    path: "/register",
+                    element: <RegisterPage />,
                 },
             ],
         },

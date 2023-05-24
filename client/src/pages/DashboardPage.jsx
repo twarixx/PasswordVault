@@ -4,30 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { toaster } from "evergreen-ui";
 
 export const DashboardPage = () => {
-    const { logout, currentUser } = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleLogout = (event) => {
-        event.preventDefault();
-
-        logout();
-        navigate("/login");
-        toaster.success("Successfully signed out!", {
-            hasCloseButton: true,
-            duration: 5,
-            id: "logout-successful",
-        });
-    };
-
     return (
-        <div>
-            <p>Hey, {currentUser.email}</p>
-            <button
-                className="bg-sky-500 px-4 py-2 rounded text-white"
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
+        <div className="flex justify-between gap-24 mx-24 w-[100vw] z-2">
+            <div className="bg-stone-600 rounded w-[30%] flex items-center justify-center p-4 h-16">
+                <p className="font-semibold text-xl">Add Category</p>
+            </div>
+
+            <div className="bg-stone-600 rounded w-full flex items-center justify-center p-4 h-16">
+                <p className="font-semibold text-xl">Add Password</p>
+            </div>
         </div>
     );
 };
