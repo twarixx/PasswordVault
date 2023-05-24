@@ -19,11 +19,11 @@ class Password extends Model
             'username',
             'password',
             'category',
-            'App\Models\User',
+            'user_id',
         ];
 
     public function User(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'App\Models\User', 'id');
+        return $this->belongsTo(User::class);
     }
 }

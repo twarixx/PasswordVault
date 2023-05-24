@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('passwords', function (Blueprint $table) {
             $table->id();
-            $table->foreignid(User::class);
+            $table->foreignid('user_id')->constrained('users');
             $table->string('website');
             $table->string('username');
             $table->string('password');

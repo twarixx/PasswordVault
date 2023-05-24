@@ -18,7 +18,8 @@ class PasswordController extends Controller
     public function index()
     {
         //get all passwords
-        $passwords = Password::with('user')->where('App\Models\User', '=', Auth::user()->id)->get();
+//        $passwords = Password::with('user')->where('user_id', '=', Auth::user()->id)->get();
+        $passwords = Auth::user()->passwords;
         //return JSON response with the passwords
 
         return response($passwords);
