@@ -26,14 +26,12 @@ export const AddPasswordPage = () => {
         email: "",
         password: "",
         confirmpassword: "",
+        category: "null",
         masterpassword: masterPassword,
 
     });
 
-
-
-
-
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { currentUser } = useContext(AuthContext);
 
@@ -54,13 +52,11 @@ export const AddPasswordPage = () => {
         {
             onSuccess: (data) => {
                 setSaving(false);
-                save(data.data);
-
                 queryClient.invalidateQueries(["passwords", currentUser.username]);
 
                 navigate("/");
 
-                toaster.success("Successfully signed up!", {
+                toaster.success("Successfully saved password!", {
                     hasCloseButton: true,
                     duration: 3,
                     id: "saving-successful",
@@ -175,7 +171,9 @@ export const AddPasswordPage = () => {
                                     <select
                                         className="ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         id="category"
-                                        name="category">
+                                        name="category"
+                                        onChange={handleChange}
+                                        value={text.category}>
                                         <option value="null">Uncategorized</option>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

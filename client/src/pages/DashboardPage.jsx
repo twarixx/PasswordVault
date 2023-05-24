@@ -62,11 +62,6 @@ export const DashboardPage = () => {
                             </>
                         )}
                         <div className="bg-stone-600 w-full rounded">
-                            <div className="flex items-center justify-center py-4">
-                                <p className="font-semibold text-xl">
-                                    List of passwords!
-                                </p>
-                            </div>
                             <div className="bg-stone-600 w-full rounded">
                                 <PasswordOverview />
                             </div>
