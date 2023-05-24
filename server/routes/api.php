@@ -18,10 +18,6 @@ use App\Http\Controllers\API\PasswordController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-     return $request->user();
-});
-
 Route::get('/passwords', [PasswordController::class, 'index']);
 Route::post('/passwords', [PasswordController::class, 'store']);
 Route::get('/passwords/{password}', [PasswordController::class, 'show']);

@@ -5,9 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Password;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Crypt;
 
 class PasswordController extends Controller
 {
@@ -25,17 +22,14 @@ class PasswordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $data = $request->all();
-
         $validatedData = $request->validate([
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'string',
         ]);
-
         $password = Password::create($validatedData);
 
         return response()->json($password, 201);
