@@ -7,10 +7,7 @@ export const MasterPasswordContextProvider = ({ children }) => {
 
     const updateMasterPassword = (input) => {
         setMasterPassword(input);
-
-        setTimeout(() => {
-            setMasterPassword(null);
-        }, 60000);
+        setTimeout(() => setMasterPassword(null), 600000);
     };
 
     return (

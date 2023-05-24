@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export const DashboardPage = () => {
     const { currentUser } = useContext(AuthContext);
-    const { masterPassword, setMasterPassword } = useContext(
+    const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
 
