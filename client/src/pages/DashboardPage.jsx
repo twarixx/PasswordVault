@@ -1,20 +1,9 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { toaster } from "evergreen-ui";
-import { MasterPasswordContext } from "../context/MasterPasswordContext";
-import { Link } from "react-router-dom";
-import { MasterPasswordDialog } from "../components/MasterPasswordDialog";
+import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
 import { Category } from "../components/Category";
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { currentUser } = useContext(AuthContext);
-    const { masterPassword, updateMasterPassword } = useContext(
-        MasterPasswordContext
-    );
-
-    const navigate = useNavigate();
 
     return (
         <>
