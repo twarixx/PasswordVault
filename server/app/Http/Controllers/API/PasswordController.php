@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {
@@ -15,11 +17,12 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $user = Auth::User();
         //get all passwords
-        $passwords = Password::findOrFail($user);
+//        $passwords = Password::with('user')->where('user_id', '=', Auth::user()->id)->get();
+        $passwords = Auth::user()->passwords;
         //return JSON response with the passwords
-        return response()->json($passwords);
+
+        return response($passwords);
     }
 
     /**
