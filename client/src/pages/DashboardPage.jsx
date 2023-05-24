@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MasterPasswordContext } from "../context/MasterPasswordContext";
 import { PasswordOverview } from "../components/PasswordOverview";
+import { load } from "../axios";
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,13 @@ export const DashboardPage = () => {
     const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
+
+    const { data, isLoading, error } = load(
+        ["passwords", currentUser.username],
+        `/passwords`
+    );
+
+    if (error) return <UnknownPage />
 
     const navigate = useNavigate();
 
@@ -61,7 +69,7 @@ export const DashboardPage = () => {
                         )}
                         <div className="bg-stone-600 w-full rounded">
                             <div className="bg-stone-600 w-full rounded">
-                                <PasswordOverview />
+                                {isLoading ? "Loading..." : <PasswordOverview data={data} />}
                             </div>
                         </div>
                     </div>

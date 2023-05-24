@@ -6,23 +6,8 @@ import { UnknownPage } from "../pages/UnknownPage";
 import { FaEye } from "react-icons/fa";
 
 
-export const PasswordOverview = () => {
-    const { currentUser } = useContext(AuthContext);
-
-    const { data, isLoading, error } = load(
-        ["passwords", currentUser.username],
-        `/passwords`
-    );
-
-    console.log(data);
-
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) return <UnknownPage />
-
-    return data.map(item => (
+export const PasswordOverview = (data) => {
+    return data.data.map(item => (
         <div className="w-full flex justify-between items-center bg-stone-600 border-b-2 border-b-stone-700 px-4 py-3">
             <div className="flex justify-between items-center w-full">
                 <div className="flex">
