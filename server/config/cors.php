@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'Access-Control-Allow-Origin' => ['localhost:5173'],
+    'Access-Control-Allow-Origin' => ['localhost:5174'],
 
     'allowed_origins' => ['*'],
 
@@ -29,7 +29,7 @@ return [
 
     'exposed_headers' => [],
 
-    'Access-Control-Allow-Origin' => ['localhost:5173'],
+    'Access-Control-Allow-Origin' => ['localhost:5174'],
 
     'max_age' => 0,
 
