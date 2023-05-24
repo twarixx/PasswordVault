@@ -6,7 +6,7 @@ import { MasterPasswordContext } from "../context/MasterPasswordContext";
 
 export const DashboardPage = () => {
     const { currentUser } = useContext(AuthContext);
-    const { masterPassword, setMasterPassword } = useContext(
+    const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
 
