@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Password;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
-
-use App\encrypt;
 
 class PasswordController extends Controller
 {
@@ -32,10 +31,10 @@ class PasswordController extends Controller
 
         $validatedData = $request->validate([
             'url' => 'required|string',
-            'password' => encrypt::encrypt($data['password']),
+            'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'required|string',
-        ])->save();
+        ]);
 
         $password = Password::create($validatedData);
 
@@ -58,7 +57,7 @@ class PasswordController extends Controller
     {
         $validatedData = $request->validate([
             'url' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'category' => 'required|string',
         ]);
