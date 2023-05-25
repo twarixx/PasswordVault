@@ -17,6 +17,12 @@ class CategoryController extends Controller
         return response(Auth::user()->categories);
     }
 
+    public function getAllPasswordsInCategory(Category $category)
+    {
+
+        return $category->passwords;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

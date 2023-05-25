@@ -59,7 +59,7 @@ function App() {
                     element: <AddPasswordPage />,
                 },
                 {
-                    path: "categoryadd",
+                    path: "/categoryadd",
                     element: <AddCategoryPage />,
                 },
                 {

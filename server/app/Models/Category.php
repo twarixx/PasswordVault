@@ -13,8 +13,8 @@ class Category extends Model
     //add name and password to fillable
     protected $fillable = ['name', 'password_id', 'user_id'];
 
-    public function passwords(): BelongsTo 
+    public function passwords()
     {
-        return $this->belongsTo(Password::class);
+        return $this->hasMany(Password::class);
     }
 }
