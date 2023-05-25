@@ -22,10 +22,6 @@ class Password extends Model
             'user_id',
         ];
 
-    protected $hidden = [
-        'password'
-    ];
-
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
