@@ -20,7 +20,7 @@ class Password extends Model
             'password',
             'category',
             'user_id',
-        ];
+        ]; 
 
     public function User(): BelongsTo
     {
