@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { MasterPasswordContext } from "../context/MasterPasswordContext";
 import { PasswordOverview } from "../components/PasswordOverview";
 import { load } from "../axios";
+import { UnknownPage } from "./UnknownPage";
+
 
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +25,6 @@ export const DashboardPage = () => {
 
     if (error) return <UnknownPage />;
 
-    const navigate = useNavigate();
 
     return (
         <>
