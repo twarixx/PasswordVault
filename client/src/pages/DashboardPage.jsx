@@ -9,7 +9,6 @@ import { PasswordOverview } from "../components/PasswordOverview";
 import { load } from "../axios";
 import { UnknownPage } from "./UnknownPage";
 
-
 export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { currentUser } = useContext(AuthContext);

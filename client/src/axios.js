@@ -15,3 +15,13 @@ export function load(identifier, url) {
         { retry: false, refetchOnWindowFocus: false }
     );
 }
+
+export function loadPost(identifier, url, data) {
+    return useQuery(
+        identifier,
+        () => {
+            return makeRequest.post(url, data).then((result) => result.data);
+        },
+        { retry: false, refetchOnWindowFocus: false }
+    );
+}

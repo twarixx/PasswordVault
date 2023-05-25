@@ -4,7 +4,6 @@ import { Category } from "./Category";
 import { AuthContext } from "../context/AuthContext";
 import { UnknownPage } from "../pages/UnknownPage";
 
-
 export const CategoryList = () => {
     const { currentUser } = useContext(AuthContext);
 
