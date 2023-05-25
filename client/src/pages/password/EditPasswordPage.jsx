@@ -21,7 +21,7 @@ export const EditPasswordPage = () => {
 
     const { data, isLoading, error } = load(
         ["passwords", currentUser.username],
-        `/passwords`
+        `/passwords/`
     );
     console.log(data);
 

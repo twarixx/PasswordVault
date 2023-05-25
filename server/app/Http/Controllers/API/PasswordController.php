@@ -7,10 +7,6 @@ use App\Models\Password;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-use Mockery\Generator\StringManipulation\Pass\Pass;
-=======
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
 
 class PasswordController extends Controller
 {
@@ -19,17 +15,9 @@ class PasswordController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
         $passwords = Auth::user()->passwords;
 
         return response($passwords);
-=======
-        $user = Auth::User();
-        //get all passwords
-        $passwords = Password::findOrFail($user);
-        //return JSON response with the passwords
-        return response()->json($passwords);
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
     }
 
     /**
@@ -41,31 +29,21 @@ class PasswordController extends Controller
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
-<<<<<<< HEAD
-=======
             'category' => 'string',
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
             'masterpassword' => 'required|string',
         ]);
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-<<<<<<< HEAD
-        $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
-
-        $validatedData['password'] = $this->encrypt($validatedData["masterpassword"], $validatedData['password']);
+        $validatedData = $this->encrypt($validatedData);
 
         $password = Password::create([
             'website' => $validatedData['website'] ,
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
+            'category' => $validatedData['category'],
             'user_id' => Auth::user()->id
         ]);
-=======
-        $validatedData = $this->encrypt($validatedData);
-
-        $password = Password::create($validatedData);
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
 
         return response()->json($password);
     }
@@ -92,32 +70,10 @@ class PasswordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-<<<<<<< HEAD
-    public function update(Request $request)
-    {
-        $validatedData = $request->validate([
-            'id' => 'required|int',
-            'website' => 'required|string',
-            'password' => 'required|unique:passwords',
-            'username' => 'required|string',
-            'masterpassword' => 'required|string'
-        ]);
-
-        $password = Password::find($validatedData['id']);
-
-        $this->checkMasterPassword($validatedData['masterpassword']);
-
-        $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
-
-        $validatedData['password'] = $this->encrypt($validatedData['masterpassword'], $validatedData['password']);
-
-        $password->update($validatedData);
-
-        return response()->json($validatedData, 200);
-=======
     public function update(Request $request, Password $password)
     {
         $validatedData = $request->validate([
+            'id' => 'required|int',
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
@@ -132,7 +88,6 @@ class PasswordController extends Controller
         $password->update($validatedData);
 
         return response()->json($masterPasswordBase64Encoded, 200);
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
     }
 
     /**
@@ -151,40 +106,6 @@ class PasswordController extends Controller
         $hasher = app('hash');
         if (!$hasher->check($masterPassword, $user->password)) {
             // NOT Success
-<<<<<<< HEAD
-            throw new \Exception("masterpassword incorrect");
-        }
-    }
-
-    protected function decrypt($passwordData, $password)
-    {
-        $masterPasswordMd5Encoded = md5($password);
-
-        $encrypter = new Encrypter($masterPasswordMd5Encoded, 'AES-256-CBC');
-
-        return $encrypter->decryptString($passwordData);
-    }
-
-    protected function encrypt($masterpassword, $password)
-    {
-        $masterPasswordBase64Encoded = md5($masterpassword);
-
-        $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
-
-        $password = $encrypter->encryptString($password);
-
-        return $password;
-    }
-
-    private function checkIfPasswordAlreadyExists($masterpassword, $password)
-    {
-        Auth::user()->passwords()->each(function (Password $encryptedPassword) use ($masterpassword, $password) {
-            $plainPassword = $this->decrypt($encryptedPassword['password'], $masterpassword);
-            if($plainPassword == $password) {
-                throw new \Exception("password is already in use");
-            }
-        });
-=======
             return response('password is incorrect');
         }
     }
@@ -206,9 +127,8 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
-        $validatedData["password"] = $encrypter->decrypt($validatedData["password"]);
+        $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
 
         return $validatedData;
->>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
     }
 }

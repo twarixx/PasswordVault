@@ -14,7 +14,7 @@ export const PasswordOverview = (data) => {
                     <ul>
                         <li>{item.email}</li>
                         <li>{item.username}</li>
-                        <li><a href={item.website}>{item.website}</a></li>
+                        <li><a href={"https://" + item.website}>{item.website}</a></li>
                     </ul>
                 </div>
                 <div className="flex flex-row  gap-5">
