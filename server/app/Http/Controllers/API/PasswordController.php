@@ -86,9 +86,10 @@ class PasswordController extends Controller
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-        if ($validatedData->passwordChanged === true){
+        if ($validatedData->passwordChanged == 'true'){
             $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
         }
+
         $validatedData['password'] = $this->encrypt($validatedData['masterpassword'], $validatedData['password']);
 
         $password->update($validatedData);
