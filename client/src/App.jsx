@@ -16,8 +16,11 @@ import { AuthContext } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
 
 import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
+<<<<<<< HEAD
 import { EditPasswordPage } from "./pages/Password/EditPasswordPage";
 
+=======
+>>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
 import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 import { QueryPage } from "./pages/QueryPage";
 
@@ -59,10 +62,13 @@ function App() {
                     element: <AddPasswordPage />,
                 },
                 {
+<<<<<<< HEAD
                     path: "/passwordedit/:id/edit",
                     element: <EditPasswordPage />,
                 },
                 {
+=======
+>>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
                     path: "/upgrade",
                     element: <UpgradePage />,
                 },

@@ -55,8 +55,14 @@ class User extends Authenticatable
         return Role::getRole($this->role);
     }
 
+<<<<<<< HEAD
     public function passwords(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Password::class);
+=======
+    public function categories() 
+    {
+        return $this->hasMany(Category::class);
+>>>>>>> 9cc380055948b63a0f0353d3952c89623bceb1e5
     }
 }

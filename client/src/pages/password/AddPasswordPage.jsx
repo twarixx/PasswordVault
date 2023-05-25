@@ -183,22 +183,24 @@ export const AddPasswordPage = () => {
                                     </div>
 
                                 </div>
-                                {!masterPassword ? (
-                                    <Link to="/" className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10">
-                                        <p className="font-semibold text-xl">
-                                            Save
-                                        </p>
-                                    </Link>
-                                ) : (
-                                    <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
-                                        {Saving ? (
-                                            <PulseLoader color="white" />
-                                        ) : (
-                                            "Save!"
-                                        )}
-                                    </button>
-                                )}
-                            </div>
+                                {
+                                    !masterPassword ? (
+                                        <Link to="/" className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10">
+                                            <p className="font-semibold text-xl">
+                                                Save
+                                            </p>
+                                        </Link>
+                                    ) : (
+                                        <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
+                                            {Saving ? (
+                                                <PulseLoader color="white" />
+                                            ) : (
+                                                "Save!"
+                                            )}
+                                        </button>
+                                    )
+                                }
+                            </div >
                             <div className="flex flex-col mt-4">
                                 <div className="flex flex-col">
                                     <input type="hidden" value={masterPassword} />
@@ -240,7 +242,7 @@ export const AddPasswordPage = () => {
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form >
                 </div >
             </div >
 
