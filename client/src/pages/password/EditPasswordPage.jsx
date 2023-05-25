@@ -243,9 +243,6 @@ export const EditPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        <option value="null">
-                                            Uncategorized
-                                        </option>
                                         {loadedCategories.map((item) => (
                                             <option
                                                 key={item.id}

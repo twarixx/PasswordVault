@@ -34,7 +34,7 @@ class PasswordController extends Controller
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'masterpassword' => 'required|string',
-            'categoryid' => 'required|int'
+            'category' => 'required|int'
         ]);
 
         if (Auth::user()->role() === Role::FREE && Auth::user()->passwords->count() >= 50) {
@@ -52,7 +52,7 @@ class PasswordController extends Controller
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
             'user_id' => Auth::user()->id,
-            'category_id' => Category::Find($validatedData['category_id'])
+            'category_id' => $validatedData['category']
         ]);
 
         return response()->json($password);

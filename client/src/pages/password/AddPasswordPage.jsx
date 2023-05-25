@@ -28,7 +28,7 @@ export const AddPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "",
+        category: "0",
         confirmpassword: "",
     });
 
@@ -196,9 +196,6 @@ export const AddPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        <option value="null">
-                                            Uncategorized
-                                        </option>
                                         {data.map((item) => (
                                             <option
                                                 key={item.id}
