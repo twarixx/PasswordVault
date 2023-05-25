@@ -15,8 +15,6 @@ export const CategoryList = () => {
     if (isLoading) return "Loading...";
     if (error) return <UnknownPage />;
 
-    console.log(data);
-
     return (
         <div className="bg-stone-600 w-full rounded">
             {data.map((category) => {
