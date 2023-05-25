@@ -1,10 +1,24 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
+import { load, loadPost } from "../axios";
+import { PasswordOverview } from "../components/PasswordOverview";
+import { NoResults } from "../components/NoResults";
 
 export const QueryPage = () => {
     const { query } = useParams();
     const { currentUser } = useContext(AuthContext);
+
+    const {data, isLoading, error} = loadPost([
+        'search',
+        currentUser.username,
+        query
+    ], '/search', {query:query})
+
+    console.log(data)
+    if(isLoading){
+        return "loading...";
+    }
 
     return (
         <div className="flex flex-col items-center gap-6">
@@ -14,6 +28,11 @@ export const QueryPage = () => {
                         Results for {query}:
                     </p>
                 </div>
+            </div>
+            <div className="w-[75%] rounded">
+            {data.length === 0 ? <NoResults /> : <PasswordOverview data={data} />
+                    
+                }
             </div>
         </div>
     );
