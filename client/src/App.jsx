@@ -19,6 +19,7 @@ import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
 import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 import { QueryPage } from "./pages/QueryPage";
 import { AddCategoryPage } from "./pages/category/AddCategoryPage";
+import { CategoryPage } from "./pages/category/CategoryPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -60,6 +61,10 @@ function App() {
                 {
                     path: "categoryadd",
                     element: <AddCategoryPage />,
+                },
+                {
+                    path: "category/:id",
+                    element: <CategoryPage />,
                 },
                 {
                     path: "/upgrade",

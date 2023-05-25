@@ -15,7 +15,7 @@ export const MainLayout = () => {
                     <NavBar />
                 </div>
 
-                <div className="w-full opacity-100 flex -mt-7">
+                <div className="w-full opacity-100 flex -mt-7 pb-8">
                     <Outlet />
                 </div>
             </div>
