@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class);
     }
+
+    public function passwords(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Password::class);
+    }
 }
