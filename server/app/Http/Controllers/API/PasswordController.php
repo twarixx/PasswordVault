@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Password;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $passwords = Auth::user()->passwords->count();
+        $passwords = Auth::user()->passwords;
 
         return response($passwords);
     }
@@ -33,6 +34,7 @@ class PasswordController extends Controller
             'password' => 'required|unique:passwords',
             'username' => 'required|string',
             'masterpassword' => 'required|string',
+            'categoryid' => 'required|int'
         ]);
 
         if (Auth::user()->role() === Role::FREE && Auth::user()->passwords->count() >= 50) {
@@ -49,7 +51,8 @@ class PasswordController extends Controller
             'website' => $validatedData['website'] ,
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'category_id' => Category::Find($validatedData['category_id'])
         ]);
 
         return response()->json($password);
