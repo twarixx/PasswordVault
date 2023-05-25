@@ -63,7 +63,7 @@ function App() {
                     element: <AddCategoryPage />,
                 },
                 {
-                    path: "category/:id",
+                    path: "/category/:id",
                     element: <CategoryPage />,
                 },
                 {

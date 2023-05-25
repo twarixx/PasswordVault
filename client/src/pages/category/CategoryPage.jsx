@@ -71,7 +71,7 @@ export const CategoryPage = () => {
                         )}
                         <div className="bg-stone-600 w-full rounded">
                             <div className="bg-stone-600 w-full rounded">
-                                {isLoading || !data.data ? (
+                                {isLoading ? (
                                     "Loading..."
                                 ) : (
                                     <PasswordOverview data={data} />
