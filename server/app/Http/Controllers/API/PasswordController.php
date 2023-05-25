@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Password;
-use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class PasswordController extends Controller
 {

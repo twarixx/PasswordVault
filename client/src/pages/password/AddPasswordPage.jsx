@@ -20,6 +20,7 @@ export const AddPasswordPage = () => {
     const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
+
     const [text, setText] = useState({
         website: "",
         username: "",
