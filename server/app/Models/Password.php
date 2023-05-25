@@ -20,11 +20,7 @@ class Password extends Model
             'password',
             'category',
             'user_id',
-        ];
-
-    protected $hidden = [
-        'password'
-    ];
+        ]; 
 
     public function User(): BelongsTo
     {
