@@ -16,6 +16,8 @@ import { AuthContext } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
 
 import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
+import { EditPasswordPage } from "./pages/Password/EditPasswordPage";
+
 import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 import { QueryPage } from "./pages/QueryPage";
 
@@ -55,6 +57,10 @@ function App() {
                 {
                     path: "/passwordadd",
                     element: <AddPasswordPage />,
+                },
+                {
+                    path: "/passwordedit/:id/edit",
+                    element: <EditPasswordPage />,
                 },
                 {
                     path: "/upgrade",

@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { PulseLoader } from 'react-spinners';
 import { toaster } from "evergreen-ui";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { makeRequest } from "../../axios";
-import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
-import { MasterPasswordContext } from "../context/MasterPasswordContext";
+import { makeRequest, load } from "../../axios";
+import { MasterPasswordDialog } from "../../components/dialogs/MasterPasswordDialog";
+import { MasterPasswordContext } from "../../context/MasterPasswordContext";
+import { AuthContext } from "../../context/AuthContext";
+
+
 
 export const EditPasswordPage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,13 +16,22 @@ export const EditPasswordPage = () => {
         MasterPasswordContext
     );
 
+    const { currentUser } = useContext(AuthContext);
+
+
+    const { data, isLoading, error } = load(
+        ["passwords", currentUser.username],
+        `/passwords`
+    );
+    console.log(data);
+
     const [text, setText] = useState({
-        website: website,
-        username: username,
-        email: email,
-        password: password,
-        confirmpassword: confirmpassword,
-        masterpassword: masterpassword
+        website: data.website,
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        confirmpassword: data.confirmpassword,
+        masterpassword: masterPassword
     });
 
 
@@ -183,6 +195,8 @@ export const EditPasswordPage = () => {
                             </div>
                             <div className="flex flex-col mt-4">
                                 <div className="flex flex-col">
+                                    <input type="hidden" value={masterPassword} />
+
                                     <label
                                         htmlFor="password"
                                     >

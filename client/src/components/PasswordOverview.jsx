@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext, useState } from "react";
 import { UnknownPage } from "../pages/UnknownPage";
 import { FaEye } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 
 export const PasswordOverview = (data) => {
     return data.data.map(item => (
@@ -14,14 +14,16 @@ export const PasswordOverview = (data) => {
                     <ul>
                         <li>{item.email}</li>
                         <li>{item.username}</li>
-                        <li>{item.website}</li>
+                        <li><a href={item.website}>{item.website}</a></li>
                     </ul>
                 </div>
                 <div className="flex flex-row  gap-5">
                     <p className=" bg-blue-500 rounded w-full flex items-center justify-center p-4" > Social Media </p>
-                    <FaEye className="rounded text-color-white" size={50} />
+                    <Link to={`/passwordedit/${item.id}/edit`}>
+                        <FaEye className="rounded text-color-white" size={50} />
+                    </Link>
                 </div>
             </div>
-        </div>)
+        </div >)
     )
 }
