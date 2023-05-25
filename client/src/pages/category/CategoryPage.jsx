@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { MasterPasswordContext } from "../../context/MasterPasswordContext";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { UnknownPage } from "../UnknownPage";
 import { MasterPasswordDialog } from "../../components/dialogs/MasterPasswordDialog";
 import { CategoryList } from "../../components/CategoryList";
@@ -21,8 +21,6 @@ export const CategoryPage = () => {
     );
 
     if (error) return <UnknownPage />;
-
-    const navigate = useNavigate();
 
     return (
         <>
