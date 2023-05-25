@@ -86,7 +86,7 @@ class PasswordController extends Controller
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-        if ($validatedData->passwordChanged == 'true'){
+        if ($request->passwordchanged == 'true'){
             $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
         }
 
@@ -113,7 +113,7 @@ class PasswordController extends Controller
         $hasher = app('hash');
         if (!$hasher->check($masterPassword, $user->password)) {
             // NOT Success
-            throw new \Exception("masterpassword incorrect");
+            throw new \Exception("Masterpassword incorrect");
         }
     }
 
@@ -142,7 +142,7 @@ class PasswordController extends Controller
         Auth::user()->passwords()->each(function (Password $encryptedPassword) use ($masterpassword, $password) {
             $plainPassword = $this->decrypt($encryptedPassword['password'], $masterpassword);
             if($plainPassword == $password) {
-                throw new \Exception("password is already in use");
+                throw new \Exception("Password is already in use");
             }
         });
     }
