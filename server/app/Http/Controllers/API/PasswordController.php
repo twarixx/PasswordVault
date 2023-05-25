@@ -19,7 +19,7 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $passwords = Auth::user();
+        $passwords = Auth::user()->passwords;
 
         return response($passwords);
     }
