@@ -24,11 +24,13 @@ Route::post('/passwords/show', [PasswordController::class, 'show']);
 Route::middleware('auth')->put('/passwords/{password}', [PasswordController::class, 'update']);
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
 
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/categories', [CategoryController::class, 'store']);
-Route::get('/categories/{category}', [CategoryController::class, 'show']);
-Route::put('/categories/{category}', [CategoryController::class, 'update']);
-Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+Route::post('/search', [PasswordController::class, 'search']);
+
+Route::middleware('auth')->get('/categories', [CategoryController::class, 'index']);
+Route::middleware('auth')->post('/categories', [CategoryController::class, 'store']);
+Route::middleware('auth')->get('/categories/{category}', [CategoryController::class, 'show']);
+Route::middleware('auth')->put('/categories/{category}', [CategoryController::class, 'update']);
+Route::middleware('auth')->delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 

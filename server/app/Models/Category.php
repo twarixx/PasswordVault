@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class Category extends Model
 {
@@ -13,8 +13,8 @@ class Category extends Model
     //add name and password to fillable
     protected $fillable = ['name', 'password_id', 'user_id'];
 
-    public function passwords(): BelongsTo 
+    public function passwords(): hasMany 
     {
-        return $this->belongsTo(Password::class);
+        return $this->hasMany(Password::class);
     }
 }
