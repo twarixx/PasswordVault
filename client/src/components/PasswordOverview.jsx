@@ -13,8 +13,7 @@ export const PasswordOverview = (data) => {
                 </div>
                 <div className="flex flex-row  gap-5">
                     <p className=" bg-blue-500 rounded w-full flex items-center justify-center p-4">
-                        {" "}
-                        Social Media{" "}
+                        {item.category}
                     </p>
                     <FaEye className="rounded text-color-white" size={50} />
                 </div>
