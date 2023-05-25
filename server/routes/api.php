@@ -29,6 +29,8 @@ Route::post('/passwords', [PasswordController::class, 'store']);
 Route::get('/passwords', [PasswordController::class, 'index']);
 Route::delete('/passwords/{password}', [PasswordController::class, 'destroy']);
 
+Route::post('/search', [PasswordController::class, 'search']);
+
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);

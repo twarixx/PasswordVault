@@ -144,4 +144,18 @@ class PasswordController extends Controller
             }
         });
     }
+
+    public function search(Request $request) 
+    {
+        $validatedData = $request->validate([
+            'query' => 'required|string',
+        ]);
+
+        $result = Password::where('user_id', Auth::user()->id)
+        ->where('website', 'LIKE', '%'.$validatedData['query'].'%')
+        ->orWhere('username', 'LIKE', '%'.$validatedData['query'].'%')
+        ->get();
+
+        return response($result);
+    }
 }
