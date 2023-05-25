@@ -13,9 +13,7 @@ export const DashboardPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { currentUser } = useContext(AuthContext);
 
-    const { masterPassword, updateMasterPassword } = useContext(
-        MasterPasswordContext
-    );
+    const { masterPassword } = useContext(MasterPasswordContext);
 
     const { data, isLoading, error } = load(
         ["passwords", currentUser.username],
@@ -23,8 +21,6 @@ export const DashboardPage = () => {
     );
 
     if (error) return <UnknownPage />;
-
-    const navigate = useNavigate();
 
     return (
         <>
