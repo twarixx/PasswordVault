@@ -36,6 +36,7 @@ Route::post('/categories', [CategoryController::class, 'store']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::put('/categories/{category}', [CategoryController::class, 'update']);
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+Route::middleware('auth')->get('categories/{category}/passwords', [CategoryController::class, 'getAllPasswordsInCategory']);
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 
@@ -57,7 +58,7 @@ Route::middleware('auth')->delete('/passwords/{password}', [PasswordController::
 Route::middleware('auth')->post('/upgrade', [UpgradeController::class, 'upgrade']);
 Route::middleware('auth')->post('/downgrade', [UpgradeController::class, 'downgrade']);
 
-Route::middleware('auth')->post('/masterpassword', function ($masterPassword) { 
+Route::middleware('auth')->post('/masterpassword', function ($masterPassword) {
     $user = Auth::user();
     $hasher = app('hash');
     if (!$hasher->check($masterPassword, $user->password)) {
