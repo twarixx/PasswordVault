@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Password;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Generator\StringManipulation\Pass\Pass;
+use mysql_xdevapi\Exception;
 
 class PasswordController extends Controller
 {
@@ -16,7 +18,7 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $passwords = Auth::user()->passwords;
+        $passwords = Auth::user()->passwords->count();
 
         return response($passwords);
     }
@@ -32,6 +34,10 @@ class PasswordController extends Controller
             'username' => 'required|string',
             'masterpassword' => 'required|string',
         ]);
+
+        if (Auth::user()->role() === Role::FREE && Auth::user()->passwords->count() >= 50) {
+            throw new \Exception("Your free account has limited the maximum allowed of 50 passwords");
+        }
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
