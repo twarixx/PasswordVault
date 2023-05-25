@@ -17,7 +17,7 @@ export const CategoryPage = () => {
 
     const { data, isLoading, error } = load(
         ["passwords", currentUser.username, id],
-        `/categories/${id}`
+        `/categories/${id}/passwords`
     );
 
     if (error) return <UnknownPage />;
