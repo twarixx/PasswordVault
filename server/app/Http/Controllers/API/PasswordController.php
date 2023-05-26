@@ -36,6 +36,7 @@ class PasswordController extends Controller
         $validatedData = $request->validate([
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
+            'confirmpassword' => 'required|same:password',
             'username' => 'required|string',
             'masterpassword' => 'required|string'
         ]);
