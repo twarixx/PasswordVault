@@ -67,18 +67,37 @@ export const EditPasswordPage = () => {
     const generateRandomPassword = (event) => {
         event.preventDefault();
 
-        let password = "";
-        const characters =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=[]{}|;:,.<>?";
+        const lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const uppercase = lowercase.toUpperCase();
+        const symbols = "!@#$%^&*()_-+=[]{}|;:,.<>?";
+        const characters = lowercase + uppercase + "0123456789" + symbols;
 
         const charactersLength = characters.length;
 
-        let counter = 0;
-        while (counter < 12) {
-            password += characters.charAt(
+        let password = "";
+        let hasLowercase = false;
+        let hasUppercase = false;
+        let hasSymbol = false;
+
+        while (
+            password.length < 12 ||
+            !hasLowercase ||
+            !hasUppercase ||
+            !hasSymbol
+        ) {
+            const randomChar = characters.charAt(
                 Math.floor(Math.random() * charactersLength)
             );
-            counter++;
+
+            if (lowercase.includes(randomChar)) {
+                hasLowercase = true;
+            } else if (uppercase.includes(randomChar)) {
+                hasUppercase = true;
+            } else if (symbols.includes(randomChar)) {
+                hasSymbol = true;
+            }
+
+            password += randomChar;
         }
 
         setText((prev) => ({
