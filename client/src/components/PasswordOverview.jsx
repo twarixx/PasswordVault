@@ -12,6 +12,7 @@ export const PasswordOverview = (data) => {
 
     const { masterPassword } = useContext(MasterPasswordContext);
 
+    console.log(data)
     return (
         <>
             <MasterPasswordDialog
@@ -27,7 +28,6 @@ export const PasswordOverview = (data) => {
                     <div className="flex justify-between items-center w-full ">
                         <div className="flex">
                             <ul>
-                                <li>{item.email}</li>
                                 <li>{item.username}</li>
                                 <li>{item.website}</li>
                             </ul>
