@@ -167,7 +167,10 @@ export const EditPasswordPage = () => {
             username: text.username,
             password: text.password,
             confirmpassword: text.confirmpassword,
-            category: text.category === "null" ? null : getId(text.category),
+            category:
+                text.category === "null" || text.category === "Uncategorized"
+                    ? null
+                    : getId(text.category),
             masterpassword: masterPassword,
         };
 
