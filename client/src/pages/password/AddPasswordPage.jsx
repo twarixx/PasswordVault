@@ -56,7 +56,7 @@ export const AddPasswordPage = () => {
 
         let password = "";
         const characters =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=[]{}|;:,.<>?";
         const charactersLength = characters.length;
 
         let counter = 0;
