@@ -25,3 +25,10 @@ export function loadPost(identifier, url, data) {
         { retry: false, refetchOnWindowFocus: false }
     );
 }
+
+export function loadWithExpiry(identifier, url, expiry) {
+    return useQuery(identifier, () => {
+        return makeRequest.get(url).then(result => result.data);
+    }, {retry: false, refetchOnWindowFocus: false, refetchInterval: expiry});
+}
+
