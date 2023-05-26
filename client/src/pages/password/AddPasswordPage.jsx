@@ -28,7 +28,7 @@ export const AddPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "Uncategorized",
+        category: "null",
         confirmpassword: "",
     });
 
@@ -113,7 +113,7 @@ export const AddPasswordPage = () => {
             email: text.email,
             password: text.password,
             confirmpassword: text.confirmpassword,
-            category: getId(text.category),
+            category: text.category === "null" ? null : getId(text.category),
             masterpassword: masterPassword,
         };
 
@@ -183,14 +183,22 @@ export const AddPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        {data.map((item) => (
+                                        <>
                                             <option
-                                                key={item.id}
-                                                value={item.name}
+                                                key="null"
+                                                value="Uncategorized"
                                             >
-                                                {item.name}
+                                                Uncategorized
                                             </option>
-                                        ))}
+                                            {data.map((item) => (
+                                                <option
+                                                    key={item.id}
+                                                    value={item.name}
+                                                >
+                                                    {item.name}
+                                                </option>
+                                            ))}
+                                        </>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg

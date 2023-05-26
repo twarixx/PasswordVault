@@ -24,7 +24,7 @@ export const EditPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "",
+        category: "null",
         confirmpassword: "",
         passwordchanged: false,
     });
@@ -165,7 +165,7 @@ export const EditPasswordPage = () => {
             username: text.username,
             password: text.password,
             confirmpassword: text.confirmpassword,
-            category: getId(text.category),
+            category: text.category === "null" ? null : getId(text.category),
             masterpassword: masterPassword,
         };
 

@@ -9,14 +9,14 @@ export const QueryPage = () => {
     const { query } = useParams();
     const { currentUser } = useContext(AuthContext);
 
-    const {data, isLoading, error} = loadPost([
-        'search',
-        currentUser.username,
-        query
-    ], '/search', {query:query})
+    const { data, isLoading, error } = loadPost(
+        ["search", currentUser.username, query],
+        "/search",
+        { query: query }
+    );
 
-    console.log(data)
-    if(isLoading){
+    console.log(data);
+    if (isLoading) {
         return "loading...";
     }
 
@@ -30,9 +30,11 @@ export const QueryPage = () => {
                 </div>
             </div>
             <div className="w-[75%] rounded">
-            {data.length === 0 ? <NoResults /> : <PasswordOverview data={data} />
-                    
-                }
+                {data.length === 0 ? (
+                    <NoResults />
+                ) : (
+                    <PasswordOverview data={data.data} />
+                )}
             </div>
         </div>
     );
