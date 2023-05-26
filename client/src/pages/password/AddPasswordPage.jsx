@@ -28,7 +28,7 @@ export const AddPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "0",
+        category: "Uncategorized",
         confirmpassword: "",
     });
 
@@ -170,19 +170,6 @@ export const AddPasswordPage = () => {
                                         type="text"
                                         id="username"
                                         name="username"
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <label className=" ml-4" htmlFor="email">
-                                        Email:
-                                    </label>
-                                    <input
-                                        onChange={handleChange}
-                                        value={text.email}
-                                        className=" ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
-                                        type="email"
-                                        id="email"
-                                        name="email"
                                     />
                                 </div>
                                 <div className="flex flex-col">

@@ -10,7 +10,7 @@ const ValidateSession = ({ children }) => {
 
     const checkAuthentication = loadWithExpiry(
         ["check_authenticate", currentUser.username],
-        "/testauth",
+        "/testauth  ",
         1500
     );
     if (!checkAuthentication.isLoading && checkAuthentication.error) {
