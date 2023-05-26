@@ -15,7 +15,6 @@ export const QueryPage = () => {
         { query: query }
     );
 
-    console.log(data);
     if (isLoading) {
         return "loading...";
     }
