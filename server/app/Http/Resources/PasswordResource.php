@@ -16,7 +16,7 @@ class PasswordResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => $this->category->name,
+            'category' => $this->category->name ?? "Uncategorized",
             'webiste' => $this->website,
             'username' => $this->username,
             'password' => $this->password,
