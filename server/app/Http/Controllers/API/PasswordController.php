@@ -176,6 +176,6 @@ class PasswordController extends Controller
         ->orWhere('username', 'LIKE', '%'.$validatedData['query'].'%')
         ->get();
 
-        return response($result);
+        return PasswordResource::collection($result);
     }
 }
