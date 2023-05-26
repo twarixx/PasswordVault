@@ -77,7 +77,7 @@ class PasswordController extends Controller
 
         $passwordData->password = $this->decrypt($passwordData->password, $validatedData["masterpassword"]);
 
-        return PasswordResource::collection($passwordData);
+        return new PasswordResource($passwordData);
     }
 
     /**
