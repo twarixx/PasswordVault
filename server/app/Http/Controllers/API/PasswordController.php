@@ -55,7 +55,7 @@ class PasswordController extends Controller
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
             'user_id' => Auth::user()->id,
-            'category_id' => $validatedData['category'] ?? null
+            'category_id' => $request['category'] ?? null
         ]);
 
         return response()->json($password);
@@ -104,7 +104,13 @@ class PasswordController extends Controller
 
         $validatedData['password'] = $this->encrypt($validatedData['masterpassword'], $validatedData['password']);
 
-        $password->update($validatedData);
+        $password->update([
+            'website' => $validatedData['website'] ,
+            'password' => $validatedData['password'] ,
+            'username' => $validatedData['username'],
+            'user_id' => Auth::user()->id,
+            'category_id' => $request['category'] ?? null
+        ]);
 
         return response()->json($validatedData, 200);
     }
