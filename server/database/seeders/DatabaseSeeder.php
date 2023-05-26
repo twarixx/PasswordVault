@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use App\Models\Password;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use App\Http\Controllers\API\PasswordController;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,5 +29,18 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$34VSzBjve2nW6Mqg1V6HLOIdJjCFTxYiSHmZtCIEd1n1NRMavr4US',
             'role' => 'Free'
         ]);
+
+        $faker = Faker::create();
+
+        for ($i = 0; $i < 48; $i++) {
+            $passwords = Password::create( [
+                'website' => 'Hyves',
+                'username' => "Jantje",
+                'user_id' => '1',
+                'password' => (new PasswordController)->encrypt("test", $faker->unique()->password),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }
