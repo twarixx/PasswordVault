@@ -74,7 +74,7 @@ export const DashboardPage = () => {
                                 {isLoading ? (
                                     "Loading..."
                                 ) : (
-                                    <PasswordOverview data={data} />
+                                    <PasswordOverview data={data.data} />
                                 )}
                             </div>
                         </div>

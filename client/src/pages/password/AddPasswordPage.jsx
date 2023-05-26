@@ -28,7 +28,7 @@ export const AddPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "Uncategorized",
+        category: "null",
         confirmpassword: "",
     });
 
@@ -113,7 +113,7 @@ export const AddPasswordPage = () => {
             email: text.email,
             password: text.password,
             confirmpassword: text.confirmpassword,
-            category: getId(text.category),
+            category: text.category === "null" ? null : getId(text.category),
             masterpassword: masterPassword,
         };
 
@@ -138,61 +138,69 @@ export const AddPasswordPage = () => {
                 onClose={() => setIsOpen(false)}
                 destination="/"
             />
-            <div className="flex flex-col  justify-center  gap-5 ml-80 w-[100vw] z-2">
+            <div className="flex flex-col justify-center gap-5 ml-80 w-[100vw] z-2">
                 <div className="bg-stone-600 flex flex-col  rounded  items-center w-[75%] justify-center p-4 h-16">
-                    <p className="font-semibold text-xl">Add Password</p>
+                    <p className="font-semibold text-xl">Edit Password</p>
                 </div>
-                <div className=" flex flex-col bg-stone-600 w-[75%] justify-center rounded">
-                    <form onSubmit={handleSubmit}>
-                        <div className="flex justify-between">
-                            <div className="flex flex-col mt-4">
-                                <div className="flex flex-col">
-                                    <label className="ml-4" htmlFor="website">
-                                        Website:
-                                    </label>
+
+                <div className="flex bg-stone-600 w-[75%] rounded p-4">
+                    <form
+                        className="w-full flex flex-col gap-4"
+                        onSubmit={handleSubmit}
+                    >
+                        <div className="flex flex-row justify-between">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-col w-full">
+                                    <label htmlFor="name">Website:</label>
                                     <input
                                         onChange={handleChange}
                                         value={text.website}
-                                        className="ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
+                                        className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         type="text"
                                         id="website"
                                         name="website"
                                     />
                                 </div>
-                                <div className="flex flex-col">
-                                    <label className=" ml-4" htmlFor="username">
-                                        Username:
-                                    </label>
+
+                                <div className="flex flex-col w-full">
+                                    <label htmlFor="name">Username:</label>
                                     <input
                                         onChange={handleChange}
                                         value={text.username}
-                                        className="ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
+                                        className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         type="text"
                                         id="username"
                                         name="username"
                                     />
                                 </div>
+
                                 <div className="flex flex-col">
-                                    <label className="ml-4" htmlFor="category">
-                                        Category:
-                                    </label>
+                                    <label htmlFor="category">Category:</label>
                                     <select
-                                        className="ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
+                                        className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         id="category"
                                         name="category"
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        {data.map((item) => (
+                                        <>
                                             <option
-                                                key={item.id}
-                                                value={item.name}
+                                                key="null"
+                                                value="Uncategorized"
                                             >
-                                                {item.name}
+                                                Uncategorized
                                             </option>
-                                        ))}
+                                            {data.map((item) => (
+                                                <option
+                                                    key={item.id}
+                                                    value={item.name}
+                                                >
+                                                    {item.name}
+                                                </option>
+                                            ))}
+                                        </>
                                     </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center px-2 text-gray-700">
                                         <svg
                                             className="fill-current h-4 w-4"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -202,62 +210,53 @@ export const AddPasswordPage = () => {
                                         </svg>
                                     </div>
                                 </div>
-                                {!masterPassword ? (
-                                    <Link
-                                        to="/"
-                                        className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10"
-                                    >
-                                        <p className="font-semibold text-xl">
-                                            Save
-                                        </p>
-                                    </Link>
-                                ) : (
-                                    <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
-                                        {saving ? (
-                                            <PulseLoader color="white" />
-                                        ) : (
-                                            "Save!"
-                                        )}
-                                    </button>
-                                )}
                             </div>
-                            <div className="flex flex-col mt-4">
-                                <div className="flex flex-col">
-                                    <input
-                                        type="hidden"
-                                        value={masterPassword}
-                                    />
-                                    <label htmlFor="password">Password:</label>
+
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-col w-full">
+                                    <label htmlFor="name">Password:</label>
                                     <input
                                         onChange={handleChange}
                                         value={text.password}
-                                        className=" mr-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
+                                        className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         type="password"
                                         id="password"
                                         name="password"
                                     />
                                 </div>
-                                <div className="flex flex-col">
-                                    <label htmlFor="password">
-                                        Confirm password:
+
+                                <div className="flex flex-col w-full">
+                                    <label htmlFor="name">
+                                        Confirm Password:
                                     </label>
                                     <input
                                         onChange={handleChange}
                                         value={text.confirmpassword}
-                                        className="mr-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
+                                        className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         type="password"
                                         id="confirmpassword"
                                         name="confirmpassword"
                                     />
                                 </div>
-                                <div className=" mt-40">
-                                    <Link to="/">
-                                        <div className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 py-2">
-                                            <p>Back</p>
-                                        </div>
-                                    </Link>
-                                </div>
                             </div>
+                        </div>
+
+                        <div className="flex justify-between w-full">
+                            <div className="flex gap-2">
+                                <button className="bg-sky-500 h-12 flex justify-center items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 py-2">
+                                    {saving ? (
+                                        <PulseLoader color="white" />
+                                    ) : (
+                                        "Save!"
+                                    )}
+                                </button>
+                            </div>
+
+                            <Link to="/">
+                                <div className="bg-sky-500 h-12 flex justify-center items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded px-4 py-2">
+                                    <p>Back</p>
+                                </div>
+                            </Link>
                         </div>
                     </form>
                 </div>

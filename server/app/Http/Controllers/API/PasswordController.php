@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PasswordResource;
 use App\Models\Category;
 use App\Models\Password;
+use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +21,11 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $passwords = Auth::user()->passwords;
+//        $passwords = Auth::user()->passwords;
 
-        return response($passwords);
+        $userPasswords = User::find(Auth::user()->id)->passwords;
+
+        return PasswordResource::collection($userPasswords);
     }
 
     /**
@@ -32,9 +36,9 @@ class PasswordController extends Controller
         $validatedData = $request->validate([
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
+            'confirmpassword' => 'required|same:password',
             'username' => 'required|string',
-            'masterpassword' => 'required|string',
-            'category' => 'required|int'
+            'masterpassword' => 'required|string'
         ]);
 
         if (Auth::user()->role() === Role::FREE && Auth::user()->passwords->count() >= 50) {
@@ -52,7 +56,7 @@ class PasswordController extends Controller
             'password' => $validatedData['password'] ,
             'username' => $validatedData['username'],
             'user_id' => Auth::user()->id,
-            'category_id' => $validatedData['category']
+            'category_id' => $request['category'] ?? null
         ]);
 
         return response()->json($password);
@@ -74,7 +78,7 @@ class PasswordController extends Controller
 
         $passwordData->password = $this->decrypt($passwordData->password, $validatedData["masterpassword"]);
 
-        return response()->json($passwordData);
+        return new PasswordResource($passwordData);
     }
 
     /**
@@ -101,7 +105,13 @@ class PasswordController extends Controller
 
         $validatedData['password'] = $this->encrypt($validatedData['masterpassword'], $validatedData['password']);
 
-        $password->update($validatedData);
+        $password->update([
+            'website' => $validatedData['website'] ,
+            'password' => $validatedData['password'] ,
+            'username' => $validatedData['username'],
+            'user_id' => Auth::user()->id,
+            'category_id' => $request['category'] ?? null
+        ]);
 
         return response()->json($validatedData, 200);
     }
@@ -167,6 +177,6 @@ class PasswordController extends Controller
         ->orWhere('username', 'LIKE', '%'.$validatedData['query'].'%')
         ->get();
 
-        return response($result);
+        return PasswordResource::collection($result);
     }
 }
