@@ -71,7 +71,7 @@ export const EditPasswordPage = () => {
         const uppercase = lowercase.toUpperCase();
         const symbols = "!@#$%^&*()_-+=[]{}|;:,.<>?";
         const numbers = "0123456789";
-        const characters = lowercase + uppercase + number + symbols;
+        const characters = lowercase + uppercase + numbers + symbols;
 
         const charactersLength = characters.length;
 
