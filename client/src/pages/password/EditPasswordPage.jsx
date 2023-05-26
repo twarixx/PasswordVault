@@ -70,7 +70,8 @@ export const EditPasswordPage = () => {
         const lowercase = "abcdefghijklmnopqrstuvwxyz";
         const uppercase = lowercase.toUpperCase();
         const symbols = "!@#$%^&*()_-+=[]{}|;:,.<>?";
-        const characters = lowercase + uppercase + "0123456789" + symbols;
+        const numbers = "0123456789";
+        const characters = lowercase + uppercase + number + symbols;
 
         const charactersLength = characters.length;
 
@@ -78,12 +79,14 @@ export const EditPasswordPage = () => {
         let hasLowercase = false;
         let hasUppercase = false;
         let hasSymbol = false;
+        let hasNumber = false;
 
         while (
             password.length < 12 ||
             !hasLowercase ||
             !hasUppercase ||
-            !hasSymbol
+            !hasSymbol ||
+            !hasNumber
         ) {
             const randomChar = characters.charAt(
                 Math.floor(Math.random() * charactersLength)
@@ -95,6 +98,8 @@ export const EditPasswordPage = () => {
                 hasUppercase = true;
             } else if (symbols.includes(randomChar)) {
                 hasSymbol = true;
+            } else if (numbers.includes(randomChar)) {
+                hasNumber = true;
             }
 
             password += randomChar;
