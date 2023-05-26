@@ -16,10 +16,12 @@ import { AuthContext } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
 
 import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
-import { EditPasswordPage } from "./pages/Password/EditPasswordPage";
 
 import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 import { QueryPage } from "./pages/QueryPage";
+import { AddCategoryPage } from "./pages/category/AddCategoryPage";
+import { EditCategoryPage } from "./pages/category/EditCategoryPage";
+import { EditPasswordPage } from "./pages/password/EditPasswordPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -59,7 +61,15 @@ function App() {
                     element: <AddPasswordPage />,
                 },
                 {
-                    path: "/passwordedit/:id",
+                    path: "/categoryadd",
+                    element: <AddCategoryPage />,
+                },
+                {
+                    path: "/category/:id/edit",
+                    element: <EditCategoryPage />,
+                },
+                {
+                    path: "/password/:id",
                     element: <EditPasswordPage />,
                 },
                 {
@@ -75,10 +85,7 @@ function App() {
                     element: <QueryPage />,
                 },
             ],
-
         },
-
-
 
         {
             path: "/",

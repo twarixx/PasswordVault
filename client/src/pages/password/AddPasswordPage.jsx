@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { PulseLoader } from 'react-spinners';
+import { useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
 import { toaster } from "evergreen-ui";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
-//import { MasterPasswordContext } from "../context/MasterPasswordContext";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -20,7 +19,6 @@ export const AddPasswordPage = () => {
     const { masterPassword, updateMasterPassword } = useContext(
         MasterPasswordContext
     );
-
     const [text, setText] = useState({
         website: "",
         username: "",
@@ -29,22 +27,24 @@ export const AddPasswordPage = () => {
         confirmpassword: "",
         category: "null",
         masterpassword: masterPassword,
-
     });
 
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { currentUser } = useContext(AuthContext);
 
-
     const [Saving, setSaving] = useState(false);
     const handleChange = (event) => {
-
         setText((prev) => ({
             ...prev,
             [event.target.name]: event.target.value,
         }));
-    }
+    };
+
+    useEffect(() => {
+        if (masterPassword) return;
+        navigate("/");
+    }, [masterPassword]);
 
     const mutation = useMutation(
         (data) => {
@@ -53,7 +53,10 @@ export const AddPasswordPage = () => {
         {
             onSuccess: (data) => {
                 setSaving(false);
-                queryClient.invalidateQueries(["passwords", currentUser.username]);
+                queryClient.invalidateQueries([
+                    "passwords",
+                    currentUser.username,
+                ]);
 
                 navigate("/");
 
@@ -78,8 +81,13 @@ export const AddPasswordPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-
-        if (text.username === "" || text.password === "" || text.email === "" || text.confirmpassword === "" || text.website === "") {
+        if (
+            text.username === "" ||
+            text.password === "" ||
+            text.email === "" ||
+            text.confirmpassword === "" ||
+            text.website === ""
+        ) {
             return toaster.danger("Enter all the fields!", {
                 hasCloseButton: true,
                 duration: 3,
@@ -89,12 +97,8 @@ export const AddPasswordPage = () => {
 
         setSaving(true);
 
-
         mutation.mutate(text);
     };
-
-
-
 
     return (
         <>
@@ -107,17 +111,12 @@ export const AddPasswordPage = () => {
                 <div className="bg-stone-600 flex flex-col  rounded  items-center w-[75%] justify-center p-4 h-16">
                     <p className="font-semibold text-xl">Add Password</p>
                 </div>
-                <div className=" flex flex-col border-2 h-[75%] bg-stone-600 w-[75%] justify-center border-black rounded">
-                    <form
-                        onSubmit={handleSubmit}
-                    >
+                <div className=" flex flex-col bg-stone-600 w-[75%] justify-center rounded">
+                    <form onSubmit={handleSubmit}>
                         <div className="flex justify-between">
                             <div className="flex flex-col mt-4">
                                 <div className="flex flex-col">
-                                    <label
-                                        className="ml-4"
-                                        htmlFor="website"
-                                    >
+                                    <label className="ml-4" htmlFor="website">
                                         Website:
                                     </label>
                                     <input
@@ -130,10 +129,7 @@ export const AddPasswordPage = () => {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label
-                                        className=" ml-4"
-                                        htmlFor="username"
-                                    >
+                                    <label className=" ml-4" htmlFor="username">
                                         Username:
                                     </label>
                                     <input
@@ -146,10 +142,7 @@ export const AddPasswordPage = () => {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label
-                                        className=" ml-4"
-                                        htmlFor="email"
-                                    >
+                                    <label className=" ml-4" htmlFor="email">
                                         Email:
                                     </label>
                                     <input
@@ -163,10 +156,7 @@ export const AddPasswordPage = () => {
                                 </div>
                                 <div />
                                 <div className="flex flex-col">
-                                    <label
-                                        className=" ml-4"
-                                        htmlFor="category"
-                                    >
+                                    <label className=" ml-4" htmlFor="category">
                                         Category:
                                     </label>
                                     <select
@@ -174,41 +164,48 @@ export const AddPasswordPage = () => {
                                         id="category"
                                         name="category"
                                         onChange={handleChange}
-                                        value={text.category}>
-                                        <option value="null">Uncategorized</option>
-
+                                        value={text.category}
+                                    >
+                                        <option value="null">
+                                            Uncategorized
+                                        </option>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                                        <svg
+                                            className="fill-current h-4 w-4"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                        </svg>
                                     </div>
-
                                 </div>
-                                {
-                                    !masterPassword ? (
-                                        <Link to="/" className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10">
-                                            <p className="font-semibold text-xl">
-                                                Save
-                                            </p>
-                                        </Link>
-                                    ) : (
-                                        <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
-                                            {Saving ? (
-                                                <PulseLoader color="white" />
-                                            ) : (
-                                                "Save!"
-                                            )}
-                                        </button>
-                                    )
-                                }
-                            </div >
+                                {!masterPassword ? (
+                                    <Link
+                                        to="/"
+                                        className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10"
+                                    >
+                                        <p className="font-semibold text-xl">
+                                            Save
+                                        </p>
+                                    </Link>
+                                ) : (
+                                    <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
+                                        {Saving ? (
+                                            <PulseLoader color="white" />
+                                        ) : (
+                                            "Save!"
+                                        )}
+                                    </button>
+                                )}
+                            </div>
                             <div className="flex flex-col mt-4">
                                 <div className="flex flex-col">
-                                    <input type="hidden" value={masterPassword} />
-                                    <label
-                                        htmlFor="password"
-                                    >
-                                        Password:
-                                    </label>
+                                    <input
+                                        type="hidden"
+                                        value={masterPassword}
+                                    />
+                                    <label htmlFor="password">Password:</label>
                                     <input
                                         onChange={handleChange}
                                         value={text.password}
@@ -219,9 +216,7 @@ export const AddPasswordPage = () => {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label
-                                        htmlFor="password"
-                                    >
+                                    <label htmlFor="password">
                                         Confirm password:
                                     </label>
                                     <input
@@ -242,10 +237,9 @@ export const AddPasswordPage = () => {
                                 </div>
                             </div>
                         </div>
-                    </form >
-                </div >
-            </div >
-
+                    </form>
+                </div>
+            </div>
         </>
     );
 };

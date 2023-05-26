@@ -43,7 +43,10 @@ export const MasterPasswordDialog = ({ isOpen, onClose, destination }) => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <input
-                                        value={masterPassword} onChange={e => setMasterPassword(e.target.value)}
+                                        value={masterPassword}
+                                        onChange={(e) =>
+                                            setMasterPassword(e.target.value)
+                                        }
                                         id="masterPassword"
                                         name="masterPassword"
                                         type="password"
@@ -68,6 +71,6 @@ export const MasterPasswordDialog = ({ isOpen, onClose, destination }) => {
                     </div>
                 </div>
             </Dialog>
-        </Transition >
-    )
+        </Transition>
+    );
 };

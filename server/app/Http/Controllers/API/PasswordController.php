@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Password;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
+=======
+use Mockery\Generator\StringManipulation\Pass\Pass;
+use mysql_xdevapi\Exception;
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
 
 class PasswordController extends Controller
 {
@@ -15,7 +21,11 @@ class PasswordController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $passwords = Auth::user()->passwords;
+=======
+        $passwords = Auth::user()->passwords->count();
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
 
         return response($passwords);
     }
@@ -33,10 +43,19 @@ class PasswordController extends Controller
             'masterpassword' => 'required|string',
         ]);
 
+        if (Auth::user()->role() === Role::FREE && Auth::user()->passwords->count() >= 50) {
+            throw new \Exception("Your free account has limited the maximum allowed of 50 passwords");
+        }
+
         $this->checkMasterPassword($validatedData['masterpassword']);
 
         $validatedData = $this->encrypt($validatedData);
 
+<<<<<<< HEAD
+=======
+        $validatedData['password'] = $this->encrypt($validatedData["masterpassword"], $validatedData['password']);
+
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
         $password = Password::create([
             'website' => $validatedData['website'] ,
             'password' => $validatedData['password'] ,
@@ -62,9 +81,9 @@ class PasswordController extends Controller
 
         $this->checkMasterPassword($validatedData['masterpassword']);
 
-        $password = $this->decrypt($passwordData, $validatedData);
+        $passwordData->password = $this->decrypt($passwordData->password, $validatedData["masterpassword"]);
 
-        return response()->json($password);
+        return response()->json($passwordData);
     }
 
     /**
@@ -76,12 +95,23 @@ class PasswordController extends Controller
             'id' => 'required|int',
             'website' => 'required|string',
             'password' => 'required|unique:passwords',
+            'confirmpassword' => 'required|same:password',
             'username' => 'required|string',
             'category' => 'string',
             'masterpassword' => 'required|string'
         ]);
 
+<<<<<<< HEAD
         $masterPasswordBase64Encoded = base64_encode($validatedData['masterpassword']);
+=======
+        $password = Password::find($validatedData['id']);
+
+        $this->checkMasterPassword($validatedData['masterpassword']);
+
+        if ($request->passwordchanged == 'true'){
+            $this->checkIfPasswordAlreadyExists($validatedData['masterpassword'], $validatedData['password']);
+        }
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded);
 
@@ -106,7 +136,11 @@ class PasswordController extends Controller
         $hasher = app('hash');
         if (!$hasher->check($masterPassword, $user->password)) {
             // NOT Success
+<<<<<<< HEAD
             return response('password is incorrect');
+=======
+            throw new \Exception("Masterpassword incorrect");
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
         }
     }
 
@@ -127,8 +161,38 @@ class PasswordController extends Controller
 
         $encrypter = new Encrypter($masterPasswordBase64Encoded, 'AES-256-CBC');
 
+<<<<<<< HEAD
         $validatedData["password"] = $encrypter->encrypt($validatedData["password"]);
 
         return $validatedData;
+=======
+        $password = $encrypter->encryptString($password);
+
+        return $password;
+    }
+
+    private function checkIfPasswordAlreadyExists($masterpassword, $password)
+    {
+        Auth::user()->passwords()->each(function (Password $encryptedPassword) use ($masterpassword, $password) {
+            $plainPassword = $this->decrypt($encryptedPassword['password'], $masterpassword);
+            if($plainPassword == $password) {
+                throw new \Exception("Password is already in use");
+            }
+        });
+>>>>>>> def6cfa4f9dbd01185f9c809a98d2deb38cf42c4
+    }
+
+    public function search(Request $request)
+    {
+        $validatedData = $request->validate([
+            'query' => 'required|string',
+        ]);
+
+        $result = Password::where('user_id', Auth::user()->id)
+        ->where('website', 'LIKE', '%'.$validatedData['query'].'%')
+        ->orWhere('username', 'LIKE', '%'.$validatedData['query'].'%')
+        ->get();
+
+        return response($result);
     }
 }
