@@ -3,7 +3,7 @@ import { MasterPasswordContext } from "../../context/MasterPasswordContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { MasterPasswordDialog } from "../../components/dialogs/MasterPasswordDialog";
-import { loadPost, makeRequest } from "../../axios";
+import { load, loadPost, makeRequest } from "../../axios";
 import { UnknownPage } from "../UnknownPage";
 import { toaster } from "evergreen-ui";
 import { AuthContext } from "../../context/AuthContext";
@@ -24,7 +24,7 @@ export const EditPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: undefined,
+        category: "",
         confirmpassword: "",
         passwordchanged: false,
     });
@@ -35,7 +35,20 @@ export const EditPasswordPage = () => {
         { id: id, masterpassword: masterPassword }
     );
 
+    const {
+        data: loadedCategories,
+        isLoading: isLoading2,
+        error: error2,
+    } = load(["categories", id], "/categories");
+
     const handleChange = (event) => {
+        if (event.target.id === "category") {
+            return setText((prev) => ({
+                ...prev,
+                [event.target.name]: event.target.value,
+            }));
+        }
+
         setText((prev) => ({
             ...prev,
             [event.target.name]: event.target.value,
@@ -58,8 +71,6 @@ export const EditPasswordPage = () => {
 
     useEffect(() => {
         if (!data) return;
-        if (data.category === null) data.category = undefined;
-
         setText((prev) => ({
             ...data,
             masterpassword: masterPassword,
@@ -138,7 +149,8 @@ export const EditPasswordPage = () => {
             text.username === "" ||
             text.password === "" ||
             text.confirmpassword === "" ||
-            text.website === ""
+            text.website === "" ||
+            text.category === ""
         ) {
             return toaster.danger("Enter all the fields!", {
                 hasCloseButton: true,
@@ -147,7 +159,17 @@ export const EditPasswordPage = () => {
             });
         }
 
-        mutation.mutate(text);
+        const data = {
+            id: text.id,
+            website: text.website,
+            username: text.username,
+            password: text.password,
+            confirmpassword: text.confirmpassword,
+            category: getId(text.category),
+            masterpassword: masterPassword,
+        };
+
+        mutation.mutate(data);
     };
 
     const handleDelete = (event) => {
@@ -157,8 +179,17 @@ export const EditPasswordPage = () => {
         deleteMutation.mutate();
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <UnknownPage />;
+    if (isLoading || isLoading2) return <div>Loading...</div>;
+    if (error || error2) return <UnknownPage />;
+
+    let categories = loadedCategories.map((item) => ({
+        key: item.name,
+        value: item.id,
+    }));
+
+    const getId = (name) => {
+        return categories.find((item) => item.key === name).value;
+    };
 
     return (
         <>
@@ -206,13 +237,20 @@ export const EditPasswordPage = () => {
                                 <div className="flex flex-col">
                                     <label htmlFor="category">Category:</label>
                                     <select
-                                        onChange={handleChange}
-                                        value={text.category}
                                         className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
                                         id="category"
                                         name="category"
+                                        onChange={handleChange}
+                                        value={text.category}
                                     >
-                                        <option value="social">Social</option>
+                                        {loadedCategories.map((item) => (
+                                            <option
+                                                key={item.id}
+                                                value={item.name}
+                                            >
+                                                {item.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center px-2 text-gray-700">
                                         <svg

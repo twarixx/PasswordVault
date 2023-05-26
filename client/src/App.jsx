@@ -20,8 +20,8 @@ import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
 import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
 import { QueryPage } from "./pages/QueryPage";
 import { AddCategoryPage } from "./pages/category/AddCategoryPage";
-import { EditCategoryPage } from "./pages/category/EditCategoryPage";
-import { EditPasswordPage } from "./pages/password/EditPasswordPage";
+import { CategoryPage } from "./pages/category/CategoryPage";
+import ValidateSession from "./utils/ValidateSession";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -48,6 +48,7 @@ function App() {
             path: "/",
             element: (
                 <LoggedIn>
+                    <ValidateSession />
                     <MainLayout />
                 </LoggedIn>
             ),
@@ -65,12 +66,8 @@ function App() {
                     element: <AddCategoryPage />,
                 },
                 {
-                    path: "/category/:id/edit",
-                    element: <EditCategoryPage />,
-                },
-                {
-                    path: "/password/:id",
-                    element: <EditPasswordPage />,
+                    path: "/category/:id",
+                    element: <CategoryPage />,
                 },
                 {
                     path: "/upgrade",

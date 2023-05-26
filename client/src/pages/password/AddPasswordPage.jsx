@@ -3,7 +3,7 @@ import { PulseLoader } from "react-spinners";
 import { toaster } from "evergreen-ui";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { makeRequest } from "../../axios";
+import { load, makeRequest } from "../../axios";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -15,26 +15,36 @@ import { MasterPasswordContext } from "../../context/MasterPasswordContext";
 import { useNavigate } from "react-router-dom";
 
 export const AddPasswordPage = () => {
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
     const [isOpen, setIsOpen] = useState(false);
-    const { masterPassword, updateMasterPassword } = useContext(
-        MasterPasswordContext
-    );
+    const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+
+    const { currentUser } = useContext(AuthContext);
+    const { masterPassword } = useContext(MasterPasswordContext);
     const [text, setText] = useState({
         website: "",
         username: "",
-        email: "",
         password: "",
+        category: "Uncategorized",
         confirmpassword: "",
-        category: "null",
-        masterpassword: masterPassword,
     });
 
-    const navigate = useNavigate();
-    const queryClient = useQueryClient();
-    const { currentUser } = useContext(AuthContext);
+    const { data, isLoading, error } = load(
+        ["categories", currentUser.username],
+        "/categories"
+    );
 
-    const [Saving, setSaving] = useState(false);
     const handleChange = (event) => {
+        if (event.target.id === "category") {
+            return setText((prev) => ({
+                ...prev,
+                [event.target.name]: event.target.value,
+            }));
+        }
+
         setText((prev) => ({
             ...prev,
             [event.target.name]: event.target.value,
@@ -97,7 +107,28 @@ export const AddPasswordPage = () => {
 
         setSaving(true);
 
-        mutation.mutate(text);
+        const data = {
+            website: text.website,
+            username: text.username,
+            email: text.email,
+            password: text.password,
+            confirmpassword: text.confirmpassword,
+            category: getId(text.category),
+            masterpassword: masterPassword,
+        };
+
+        mutation.mutate(data);
+    };
+
+    if (isLoading) return;
+
+    let categories = data.map((item) => ({
+        key: item.name,
+        value: item.id,
+    }));
+
+    const getId = (name) => {
+        return categories.find((item) => item.key === name).value;
     };
 
     return (
@@ -142,21 +173,7 @@ export const AddPasswordPage = () => {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label className=" ml-4" htmlFor="email">
-                                        Email:
-                                    </label>
-                                    <input
-                                        onChange={handleChange}
-                                        value={text.email}
-                                        className=" ml-4 bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                    />
-                                </div>
-                                <div />
-                                <div className="flex flex-col">
-                                    <label className=" ml-4" htmlFor="category">
+                                    <label className="ml-4" htmlFor="category">
                                         Category:
                                     </label>
                                     <select
@@ -166,9 +183,14 @@ export const AddPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        <option value="null">
-                                            Uncategorized
-                                        </option>
+                                        {data.map((item) => (
+                                            <option
+                                                key={item.id}
+                                                value={item.name}
+                                            >
+                                                {item.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg
@@ -191,7 +213,7 @@ export const AddPasswordPage = () => {
                                     </Link>
                                 ) : (
                                     <button className="bg-sky-500 h-12  flex justify-center w-[200px] items-center hover:bg-sky-600 focus:bg-sky-600 transition rounded ml-4  px-4 mt-10 py-2 mb-10 ">
-                                        {Saving ? (
+                                        {saving ? (
                                             <PulseLoader color="white" />
                                         ) : (
                                             "Save!"

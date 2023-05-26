@@ -18,12 +18,17 @@ class Password extends Model
             'website',
             'username',
             'password',
-            'category',
+            'category_id',
             'user_id',
-        ]; 
+        ];
 
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
