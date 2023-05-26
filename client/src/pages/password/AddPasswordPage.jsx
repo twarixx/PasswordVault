@@ -219,7 +219,7 @@ export const AddPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.password}
                                         className="bg-stone-500 px-2 py-1.5 rounded placeholder-white text-white border border-stone-600 hover:border-sky-500 focus:border-sky-500 ring-0 outline-none"
-                                        type="text"
+                                        type="password"
                                         id="password"
                                         name="password"
                                     />
