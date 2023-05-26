@@ -24,7 +24,7 @@ export const EditPasswordPage = () => {
         website: "",
         username: "",
         password: "",
-        category: "",
+        category: "null",
         confirmpassword: "",
         passwordchanged: false,
     });
@@ -72,7 +72,7 @@ export const EditPasswordPage = () => {
     useEffect(() => {
         if (!data) return;
         setText((prev) => ({
-            ...data,
+            ...data.data,
             masterpassword: masterPassword,
         }));
     }, [data]);
@@ -165,7 +165,10 @@ export const EditPasswordPage = () => {
             username: text.username,
             password: text.password,
             confirmpassword: text.confirmpassword,
-            category: getId(text.category),
+            category:
+                text.category === "null" || text.category === "Uncategorized"
+                    ? null
+                    : getId(text.category),
             masterpassword: masterPassword,
         };
 
@@ -243,14 +246,22 @@ export const EditPasswordPage = () => {
                                         onChange={handleChange}
                                         value={text.category}
                                     >
-                                        {loadedCategories.map((item) => (
+                                        <>
                                             <option
-                                                key={item.id}
-                                                value={item.name}
+                                                key="null"
+                                                value="Uncategorized"
                                             >
-                                                {item.name}
+                                                Uncategorized
                                             </option>
-                                        ))}
+                                            {loadedCategories.map((item) => (
+                                                <option
+                                                    key={item.id}
+                                                    value={item.name}
+                                                >
+                                                    {item.name}
+                                                </option>
+                                            ))}
+                                        </>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center px-2 text-gray-700">
                                         <svg

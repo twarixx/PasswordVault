@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('username');
             $table->mediumText('password');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->timestamps();
         });
     }

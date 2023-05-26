@@ -22,6 +22,8 @@ import { QueryPage } from "./pages/QueryPage";
 import { AddCategoryPage } from "./pages/category/AddCategoryPage";
 import { CategoryPage } from "./pages/category/CategoryPage";
 import ValidateSession from "./utils/ValidateSession";
+import { EditPasswordPage } from "./pages/password/EditPasswordPage";
+import { EditCategoryPage } from "./pages/category/EditCategoryPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -68,6 +70,14 @@ function App() {
                 {
                     path: "/category/:id",
                     element: <CategoryPage />,
+                },
+                {
+                    path: "/category/:id/edit",
+                    element: <EditCategoryPage />,
+                },
+                {
+                    path: "/password/:id",
+                    element: <EditPasswordPage />,
                 },
                 {
                     path: "/upgrade",
