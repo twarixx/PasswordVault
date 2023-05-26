@@ -23,7 +23,6 @@ export const DashboardPage = () => {
 
     if (error) return <UnknownPage />;
 
-    const navigate = useNavigate();
 
     return (
         <>
