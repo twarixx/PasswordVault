@@ -144,7 +144,7 @@ class PasswordController extends Controller
         return $encrypter->decryptString($passwordData);
     }
 
-    protected function encrypt($masterpassword, $password)
+    public function encrypt($masterpassword, $password)
     {
         $masterPasswordBase64Encoded = md5($masterpassword);
 
