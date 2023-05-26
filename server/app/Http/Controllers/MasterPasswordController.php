@@ -15,7 +15,7 @@ class MasterPasswordController extends Controller
         $request->masterpassword;
         if (!$hasher->check($request->masterpassword, $user->password)) {
             // NOT Successs
-            return response('password is incorrect', 403);
+            return response(['Message' => 'Password incorrect!'], 403);
         }
 
     }
