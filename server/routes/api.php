@@ -47,6 +47,7 @@ Route::middleware('guest')->post('/register', [AuthController::class, 'register'
 Route::middleware('auth')->get('/testauth', function () {
 
     return response(Auth::user());
+
 });
 
 Route::middleware('auth')->get('/passwords', [PasswordController::class, 'index']);
