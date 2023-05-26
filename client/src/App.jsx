@@ -6,10 +6,23 @@ import {
 } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+
 import { UnknownPage } from "./pages/UnknownPage";
+import { UpgradePage } from "./pages/upgrade/UpgradePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import { MainLayout } from "./layouts/MainLayout";
+
+import { AddPasswordPage } from "./pages/Password/AddPasswordPage";
+import { UpgradePremiumPage } from "./pages/upgrade/UpgradePremiumPage";
+import { QueryPage } from "./pages/QueryPage";
+import { AddCategoryPage } from "./pages/category/AddCategoryPage";
+import { CategoryPage } from "./pages/category/CategoryPage";
+import ValidateSession from "./utils/ValidateSession";
+import { EditPasswordPage } from "./pages/password/EditPasswordPage";
+import { EditCategoryPage } from "./pages/category/EditCategoryPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -36,13 +49,61 @@ function App() {
             path: "/",
             element: (
                 <LoggedIn>
-                    <Outlet />
+                    <ValidateSession />
+                    <MainLayout />
                 </LoggedIn>
             ),
             children: [
                 {
                     path: "/",
                     element: <DashboardPage />,
+                },
+                {
+                    path: "/passwordadd",
+                    element: <AddPasswordPage />,
+                },
+                {
+                    path: "/categoryadd",
+                    element: <AddCategoryPage />,
+                },
+                {
+                    path: "/category/:id",
+                    element: <CategoryPage />,
+                },
+                {
+                    path: "/category/:id/edit",
+                    element: <EditCategoryPage />,
+                },
+                {
+                    path: "/password/:id",
+                    element: <EditPasswordPage />,
+                },
+                {
+                    path: "/upgrade",
+                    element: <UpgradePage />,
+                },
+                {
+                    path: "/upgrade/paid",
+                    element: <UpgradePremiumPage />,
+                },
+                {
+                    path: "/query/:query",
+                    element: <QueryPage />,
+                },
+            ],
+        },
+
+        {
+            path: "/",
+            element: (
+                <LoggedOut>
+                    <Outlet />
+                </LoggedOut>
+            ),
+            children: [
+                {
+                    path: "/login",
+                    element: <LoginPage />,
                 },
             ],
         },
@@ -55,8 +116,8 @@ function App() {
             ),
             children: [
                 {
-                    path: "/login",
-                    element: <LoginPage />,
+                    path: "/register",
+                    element: <RegisterPage />,
                 },
             ],
         },

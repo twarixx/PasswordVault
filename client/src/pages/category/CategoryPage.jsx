@@ -1,23 +1,23 @@
-import { MasterPasswordDialog } from "../components/dialogs/MasterPasswordDialog";
-import { CategoryList } from "../components/CategoryList";
 import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { MasterPasswordContext } from "../context/MasterPasswordContext";
-import { PasswordOverview } from "../components/PasswordOverview";
-import { load } from "../axios";
-import { UnknownPage } from "./UnknownPage";
+import { MasterPasswordContext } from "../../context/MasterPasswordContext";
+import { AuthContext } from "../../context/AuthContext";
+import { useParams, Link } from "react-router-dom";
+import { UnknownPage } from "../UnknownPage";
+import { MasterPasswordDialog } from "../../components/dialogs/MasterPasswordDialog";
+import { CategoryList } from "../../components/CategoryList";
+import { PasswordOverview } from "../../components/PasswordOverview";
+import { load } from "../../axios";
 
-export const DashboardPage = () => {
+export const CategoryPage = () => {
+    const { id } = useParams();
     const [isOpen, setIsOpen] = useState(false);
     const { currentUser } = useContext(AuthContext);
 
     const { masterPassword } = useContext(MasterPasswordContext);
 
     const { data, isLoading, error } = load(
-        ["passwords", currentUser.username],
-        `/passwords`
+        ["passwords", currentUser.username, id],
+        `/categories/${id}/passwords`
     );
 
     if (error) return <UnknownPage />;
@@ -61,7 +61,7 @@ export const DashboardPage = () => {
                             <>
                                 <div
                                     onClick={() => setIsOpen(true)}
-                                    className="bg-stone-600 hover:cursor-pointer w-full rounded flex items-center justify-center p-4 h-16"
+                                    className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16"
                                 >
                                     <p className="font-semibold text-xl">
                                         Add Password
