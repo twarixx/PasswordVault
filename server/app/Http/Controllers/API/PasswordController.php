@@ -7,12 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PasswordResource;
 use App\Models\Category;
 use App\Models\Password;
+use Illuminate\Validation\Rules\Password as PasswordChecker;
 use App\Models\User;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Generator\StringManipulation\Pass\Pass;
-use mysql_xdevapi\Exception;
 
 class PasswordController extends Controller
 {
@@ -35,7 +34,7 @@ class PasswordController extends Controller
     {
         $validatedData = $request->validate([
             'website' => 'required|string',
-            'password' => 'required|unique:passwords',
+            'password' => ['required',PasswordChecker::min(12)->mixedCase()->numbers()->uncompromised()->symbols()],
             'confirmpassword' => 'required|same:password',
             'username' => 'required|string',
             'masterpassword' => 'required|string'
@@ -89,7 +88,7 @@ class PasswordController extends Controller
         $validatedData = $request->validate([
             'id' => 'required|int',
             'website' => 'required|string',
-            'password' => 'required|unique:passwords',
+            'password' => ['required',PasswordChecker::min(12)->mixedCase()->numbers()->uncompromised()->symbols()],
             'confirmpassword' => 'required|same:password',
             'username' => 'required|string',
             'masterpassword' => 'required|string'
