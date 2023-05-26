@@ -64,6 +64,29 @@ export const EditPasswordPage = () => {
         }
     };
 
+    const generateRandomPassword = (event) => {
+        event.preventDefault();
+
+        let password = "";
+        const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const charactersLength = characters.length;
+
+        let counter = 0;
+        while (counter < 12) {
+            password += characters.charAt(
+                Math.floor(Math.random() * charactersLength)
+            );
+            counter++;
+        }
+
+        setText((prev) => ({
+            ...prev,
+            password: password,
+            confirmpassword: password,
+        }));
+    };
+
     useEffect(() => {
         if (masterPassword) return;
         navigate("/");
@@ -300,6 +323,16 @@ export const EditPasswordPage = () => {
                                         id="confirmpassword"
                                         name="confirmpassword"
                                     />
+                                </div>
+
+                                <div className="flex flex-col w-full">
+                                    <button
+                                        onClick={generateRandomPassword}
+                                        type="reset"
+                                        className="bg-orange-500 h-12 flex justify-center items-center hover:bg-orange-600 focus:bg-orange-600 transition rounded px-4 py-2"
+                                    >
+                                        Generate Random
+                                    </button>
                                 </div>
                             </div>
                         </div>
