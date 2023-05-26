@@ -61,7 +61,7 @@ export const DashboardPage = () => {
                             <>
                                 <div
                                     onClick={() => setIsOpen(true)}
-                                    className="bg-stone-600 w-full rounded flex items-center justify-center p-4 h-16"
+                                    className="bg-stone-600 hover:cursor-pointer w-full rounded flex items-center justify-center p-4 h-16"
                                 >
                                     <p className="font-semibold text-xl">
                                         Add Password
