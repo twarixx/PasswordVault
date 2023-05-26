@@ -35,8 +35,6 @@ export const EditPasswordPage = () => {
         { id: id, masterpassword: masterPassword }
     );
 
-    console.log(data);
-
     const {
         data: loadedCategories,
         isLoading: isLoading2,
